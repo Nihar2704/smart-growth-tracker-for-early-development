@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Smart Growth Tracker — Typography & Scale Adjustments (Perfect Sweet Spot)
+   ========================================================================== */
+
+html {
+  font-size: 17.5px; /* Perfect sweet spot font scale */
+}
+
+/* Warm Off-White Light Theme (Exact Specs from UI_Implementation_Guidelines.md) */
+:root, .light {
+  --bg-app: #FAFAF8;            /* Warm off-white background — never pure white or pure gray */
+  --bg-surface: #FFFFFF;        /* Surface cards, panels */
+  --bg-subtle: #F2F3F0;         /* Secondary panels, subtle controls */
+  --border-color: #E4E6E9;     /* Dividers, input borders */
+  --text-main: #1F2430;        /* Near-black neutral body text */
+  --text-secondary: #5B6472;   /* Secondary text, labels */
+  --text-muted: #788290;       /* Muted text */
+  
+  --primary: #2F6F5E;          /* Muted teal-green primary button & active nav */
+  --primary-hover: #245749;    /* Darker muted teal-green hover */
+  --primary-text: #FFFFFF;     /* White button text */
+  
+  --status-routine-bg: #E8F3EC;      /* Muted green soft fill */
+  --status-routine-text: #2D6948;    /* Muted green status text */
+  --status-routine-border: #B6DAC4;  /* Muted green border */
+  
+  --status-caution-bg: #FAF4E5;      /* Muted amber soft fill */
+  --status-caution-text: #A37725;    /* Muted amber status text */
+  --status-caution-border: #E8D3A7;  /* Muted amber border */
+  
+  --status-error-bg: #FAECE9;        /* Muted brick red soft fill */
+  --status-error-text: #B3462C;      /* Muted brick red text */
+  --status-error-border: #E8B9AF;    /* Muted brick red border */
+}
+
+/* Muted Clinical Dark Theme */
+.dark {
+  --bg-app: #12161F;
+  --bg-surface: #1A202C;
+  --bg-subtle: #242B3A;
+  --border-color: #2D3748;
+  --text-main: #EDF2F7;
+  --text-secondary: #A0AEC0;
+  --text-muted: #718096;
+  
+  --primary: #2F6F5E;
+  --primary-hover: #3A8370;
+  --primary-text: #FFFFFF;
+  
+  --status-routine-bg: #1A382A;
+  --status-routine-text: #68D391;
+  --status-routine-border: #276749;
+  
+  --status-caution-bg: #3D3018;
+  --status-caution-text: #F6AD55;
+  --status-caution-border: #7B5E26;
+  
+  --status-error-bg: #3E1E1A;
+  --status-error-text: #FC8181;
+  --status-error-border: #9B2C2C;
+}
+
+@layer base {
+  body {
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    @apply antialiased min-h-screen tracking-tight transition-colors duration-150 text-base leading-relaxed;
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-app);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+/* Shared UI Components per Guidelines */
+.panel-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 0.625rem;
+  color: var(--text-main);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+}
+
+.panel-card-subtle {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 0.625rem;
+  color: var(--text-main);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-text);
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: background-color 0.15s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background-color 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-subtle);
+}
+
+.badge-routine {
+  background-color: var(--status-routine-bg);
+  color: var(--status-routine-text);
+  border: 1px solid var(--status-routine-border);
+  border-radius: 9999px;
+  font-weight: 600;
+}
+
+.badge-caution {
+  background-color: var(--status-caution-bg);
+  color: var(--status-caution-text);
+  border: 1px solid var(--status-caution-border);
+  border-radius: 9999px;
+  font-weight: 600;
+}
+
+.badge-error {
+  background-color: var(--status-error-bg);
+  color: var(--status-error-text);
+  border: 1px solid var(--status-error-border);
+  border-radius: 9999px;
+  font-weight: 600;
+}

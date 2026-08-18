@@ -1,0 +1,547 @@
+{
+  "age_groups": [2, 4, 6, 9, 12, 18, 24, 36, 48, 60],
+  "questions": {
+    "2": [
+      {
+        "id": "gm_2_1",
+        "domain": "gross_motor",
+        "text": "Holds head up when lying on stomach",
+        "hindi_text": "पेट के बल लेटने पर सिर उठाता है",
+        "example_text": "Lifts head for a few seconds during tummy time on a gaddi or mat",
+        "hindi_example_text": "गद्दे या चटाई पर पेट के बल लेटने पर कुछ सेकंड के लिए सिर उठाता है",
+        "play_idea": "Try daily supervised tummy time on a clean bed or mat with a bright toy in front."
+      },
+      {
+        "id": "gm_2_2",
+        "domain": "gross_motor",
+        "text": "Moves both arms and both legs together",
+        "hindi_text": "दोनों हाथ और पैर एक साथ चलाता है",
+        "example_text": "Kicks legs actively and wiggles arms when excited or seeing mother",
+        "hindi_example_text": "खुश होने पर या माँ को देखकर पैर पटकता है और हाथ हिलाता है",
+        "play_idea": "Give your baby space on a soft cloth mat to kick freely."
+      },
+      {
+        "id": "fm_2_1",
+        "domain": "fine_motor",
+        "text": "Opens hands briefly from tight fists",
+        "hindi_text": "अपनी मुट्ठी को थोड़ी देर के लिए खोलता है",
+        "example_text": "Relaxes hands open when calm or resting",
+        "hindi_example_text": "शांत या सोते समय मुट्ठी ढीली करके हाथ खोलता है",
+        "play_idea": "Gently stroke your baby's palms with a soft cotton cloth."
+      },
+      {
+        "id": "lang_2_1",
+        "domain": "language",
+        "text": "Makes soft cooing or gurgling sounds",
+        "hindi_text": "'ऊँ' या 'आँ' जैसी मीठी आवाज़ें निकालता है",
+        "example_text": "Makes pleasant 'aah' or 'ooh' sounds when looking at family members",
+        "hindi_example_text": "घर के लोगों को देखकर 'आह' या 'ऊह' जैसी आवाज़ें निकालता है",
+        "play_idea": "Talk and sing back cheerfully whenever your baby coos."
+      },
+      {
+        "id": "cog_2_1",
+        "domain": "cognitive",
+        "text": "Looks at your face when you talk",
+        "hindi_text": "बात करने पर आपके चेहरे को ध्यान से देखता है",
+        "example_text": "Focuses eyes on mother/caregiver's face during feeding or lullabies",
+        "hindi_example_text": "दूध पीते समय या लोरी सुनते समय माँ के चेहरे पर आँखें टिकाता है",
+        "play_idea": "Hold your baby close (8-12 inches) and make gentle eye contact while talking."
+      },
+      {
+        "id": "se_2_1",
+        "domain": "social_emotional",
+        "text": "Smiles when you talk or smile at them",
+        "hindi_text": "आपके मुस्कुराने या बात करने पर मुस्कुराता है",
+        "example_text": "Gives a sweet social smile when seeing parents, dadi, or nani",
+        "hindi_example_text": "माता-पिता, दादी या नानी को देखकर मुस्कुराता है",
+        "play_idea": "Smile often and speak in a warm, loving tone."
+      }
+    ],
+    "4": [
+      {
+        "id": "gm_4_1",
+        "domain": "gross_motor",
+        "text": "Holds head steady without support when held upright",
+        "hindi_text": "गोद में उठाने पर बिना सहारे के सिर सीधा रखता है",
+        "example_text": "Head stays steady when held upright on lap",
+        "hindi_example_text": "गोद में बैठाने पर सिर ढुलकता नहीं है",
+        "play_idea": "Practice lap sitting while supporting lower back gently."
+      },
+      {
+        "id": "gm_4_2",
+        "domain": "gross_motor",
+        "text": "Pushes up onto forearms during tummy time",
+        "hindi_text": "पेट के बल लेटने पर कोहनियों के सहारे छाती उठाता है",
+        "example_text": "Lifts chest up while lying on belly to look around",
+        "hindi_example_text": "पेट के बल लेटकर कोहनी पर जोर देकर ऊपर उठता है",
+        "play_idea": "Place a colorful rattle or mirror in front during tummy time."
+      },
+      {
+        "id": "fm_4_1",
+        "domain": "fine_motor",
+        "text": "Holds a rattle or soft toy when placed in hand",
+        "hindi_text": "हाथ में झुनझुना या खिलौना पकड़ता है",
+        "example_text": "Grasps a lightweight rattle for a few seconds",
+        "hindi_example_text": "हाथ में दिया गया हल्का झुनझुना कुछ सेकंड पकड़कर रखता है",
+        "play_idea": "Offer easy-to-grasp ring rattles or soft cloth toys."
+      },
+      {
+        "id": "lang_4_1",
+        "domain": "language",
+        "text": "Makes sounds back when you speak to them",
+        "hindi_text": "आपकी बात सुनकर जवाब में आवाज़ें निकालता है",
+        "example_text": "Responds with cheerful squeals or coos after hearing your voice",
+        "hindi_example_text": "आपकी आवाज़ सुनकर खिलखिलाता है या आवाज़ें निकालता है",
+        "play_idea": "Pause after talking to give baby time to reply in sounds."
+      },
+      {
+        "id": "cog_4_1",
+        "domain": "cognitive",
+        "text": "Tracks a moving toy with eyes from side to side",
+        "hindi_text": "चलते हुए खिलौने को आँखों से देखता है",
+        "example_text": "Follows a bright ball or rattle as you move it slowly",
+        "hindi_example_text": "रंग-बिरंगी गेंद या झुनझुने को हिलाने पर आँखों से उसका पीछा करता है",
+        "play_idea": "Slowly move a bright toy across baby's line of sight."
+      },
+      {
+        "id": "se_4_1",
+        "domain": "social_emotional",
+        "text": "Laughs or chuckles out loud",
+        "hindi_text": "ज़ोर से खिलखिलाकर हँसता है",
+        "example_text": "Giggles aloud during tickling or gentle peek-a-boo (aankh-moli)",
+        "hindi_example_text": "गुदगुदी करने पर या 'आँख-मिचौली' (peek-a-boo) खेलने पर हँसता है",
+        "play_idea": "Play gentle peek-a-boo using a dupattas or small towel."
+      }
+    ],
+    "6": [
+      {
+        "id": "gm_6_1",
+        "domain": "gross_motor",
+        "text": "Rolls over from stomach to back",
+        "hindi_text": "पेट के बल से पीठ के बल पलटता है",
+        "example_text": "Flips over from belly onto back while playing on bed or mat",
+        "hindi_example_text": "बिस्तर या चटाई पर खेलते हुए पेट से पीठ के बल पलट जाता है",
+        "play_idea": "Place a rattle slightly to the side to encourage rolling."
+      },
+      {
+        "id": "gm_6_2",
+        "domain": "gross_motor",
+        "text": "Sits with brief support or hands propped forward",
+        "hindi_text": "सहारे के साथ बैठता है",
+        "example_text": "Sits upright when supported with pillows or leaning on hands",
+        "hindi_example_text": "तकिए के सहारे या हाथों को आगे टिकाकर बैठता है",
+        "play_idea": "Support baby in a sitting position with cushions around."
+      },
+      {
+        "id": "fm_6_1",
+        "domain": "fine_motor",
+        "text": "Reaches for and grabs toys with both hands",
+        "hindi_text": "खिलौने की तरफ हाथ बढ़ाकर उसे पकड़ता है",
+        "example_text": "Reaches out to grab a katori, cup, or ring toy",
+        "hindi_example_text": "सामने रखी कटोरी या खिलौने को पकड़ने के लिए हाथ बढ़ाता है",
+        "play_idea": "Hold colorful safe kitchen utensils (like a plastic cup) just within reach."
+      },
+      {
+        "id": "lang_6_1",
+        "domain": "language",
+        "text": "Babbles single consonant sounds like 'ba', 'da', 'ma'",
+        "hindi_text": "'बा', 'दा', 'मा' जैसी आवाज़ें बार-बार निकालता है",
+        "example_text": "Says 'ba-ba-ba' or 'ma-ma-ma' repeatedly while playing",
+        "hindi_example_text": "खेलते समय 'बा-बा-बा' या 'मा-मा' दोहराता है",
+        "play_idea": "Repeat your baby's babbling sounds back to encourage speech development."
+      },
+      {
+        "id": "cog_6_1",
+        "domain": "cognitive",
+        "text": "Brings objects and toys to mouth to explore",
+        "hindi_text": "चीज़ों को मुँह तक ले जाकर देखता है",
+        "example_text": "Puts teether, soft toy, or clean spoon into mouth",
+        "hindi_example_text": "खिलौना या साफ चम्मच मुँह में डालता है",
+        "play_idea": "Provide clean, safe silicone teethers or ring toys."
+      },
+      {
+        "id": "se_6_1",
+        "domain": "social_emotional",
+        "text": "Recognizes familiar faces (parents, grandparents)",
+        "hindi_text": "पहचाने हुए चेहरों (माता-पिता, दादा-दादी) को पहचानता है",
+        "example_text": "Shows joy when seeing parents, dadi, nani, or siblings",
+        "hindi_example_text": "माँ, पापा, दादा-दादी या भैया-दीदी को देखकर खुश होता है",
+        "play_idea": "Encourage family members to interact closely with warm smiles."
+      }
+    ],
+    "9": [
+      {
+        "id": "gm_9_1",
+        "domain": "gross_motor",
+        "text": "Sits steadily without any support",
+        "hindi_text": "बिना किसी सहारे के सीधा बैठता है",
+        "example_text": "Sits independently on floor mat while playing with toys",
+        "hindi_example_text": "चटाई पर बिना सहारे के आराम से बैठकर खेलता है",
+        "play_idea": "Place toys around in a semicircle to practice turning while sitting."
+      },
+      {
+        "id": "gm_9_2",
+        "domain": "gross_motor",
+        "text": "Crawls or scoots across the room",
+        "hindi_text": "घुटनों के बल रेंगता (crawl) है",
+        "example_text": "Crawls on hands and knees to reach a rolling ball or person",
+        "hindi_example_text": "कमरे में घुटनों के बल रेंगकर गेंद या सदस्य के पास जाता है",
+        "play_idea": "Roll a small soft ball across the room for baby to crawl after."
+      },
+      {
+        "id": "fm_9_1",
+        "domain": "fine_motor",
+        "text": "Uses thumb and index finger (pincer grasp) to pick small food/toys",
+        "hindi_text": "अंगूठे और उंगली से छोटी चीज़ें (पिनसर ग्रिप) उठाता है",
+        "example_text": "Picks up small puffed rice (mormora), biscuit crumb, or small toy using thumb and finger",
+        "hindi_example_text": "मुरमुरा, बिस्किट का टुकड़ा या छोटी चीज़ अंगूठे और उंगली से चुटकी में उठाता है",
+        "play_idea": "Offer safe finger foods like boiled peas or murmura during snack time."
+      },
+      {
+        "id": "lang_9_1",
+        "domain": "language",
+        "text": "Responds to their own name by turning around",
+        "hindi_text": "अपना नाम पुकारने पर मुड़कर देखता है",
+        "example_text": "Turns head immediately when parent or caregiver calls name",
+        "hindi_example_text": "नाम से बुलाने पर तुरंत मुड़कर देखता है",
+        "play_idea": "Call your baby's name from different parts of the room playfully."
+      },
+      {
+        "id": "cog_9_1",
+        "domain": "cognitive",
+        "text": "Plays peek-a-boo (aankh-moli) and looks for hidden objects",
+        "hindi_text": "'आँख-मिचौली' खेलता है और छिपी चीज़ें ढूंढता है",
+        "example_text": "Lifts a towel or dupatta to find a hidden rattle underneath",
+        "hindi_example_text": "दुपट्टे के नीचे छिपे झुनझुने को ढूँढने के लिए कपडा हटाता है",
+        "play_idea": "Hide a favorite toy under a small cloth while baby watches and ask 'Kahan gaya?'"
+      },
+      {
+        "id": "se_9_1",
+        "domain": "social_emotional",
+        "text": "Shows stranger anxiety or clings to familiar family members",
+        "hindi_text": "अंजान लोगों को देखकर झिझकता है या माँ-बाप से चिपकता है",
+        "example_text": "Acts shy or reaches for mother/father when unfamiliar visitors arrive",
+        "hindi_example_text": "नए लोगों को देखकर शर्माता है या माँ की गोद में छिपता है",
+        "play_idea": "Give baby time to get comfortable around new guests while holding them securely."
+      }
+    ],
+    "12": [
+      {
+        "id": "gm_12_1",
+        "domain": "gross_motor",
+        "text": "Pulls up to stand holding furniture or bed edge",
+        "hindi_text": "फर्नीचर या चारपाई पकड़कर खड़ा होता है",
+        "example_text": "Holds onto sofa edge or bed to stand up on feet",
+        "hindi_example_text": "सोफे या पलंग का किनारा पकड़कर अपने पैरों पर खड़ा होता है",
+        "play_idea": "Place favorite toys on a low sturdy coffee table or bed edge."
+      },
+      {
+        "id": "gm_12_2",
+        "domain": "gross_motor",
+        "text": "Takes a few independent steps or walks holding hands",
+        "hindi_text": "हाथ पकड़कर चलता है या 2-3 कदम खुद चलता है",
+        "example_text": "Walks forward while holding parent's fingers or takes 2-3 solo steps",
+        "hindi_example_text": "माँ-पापा की उंगली पकड़कर चलता है या अकेले 2-3 कदम बढ़ाता है",
+        "play_idea": "Hold both hands lightly and encourage walking towards another family member."
+      },
+      {
+        "id": "fm_12_1",
+        "domain": "fine_motor",
+        "text": "Puts small objects into a bowl or katori and takes them out",
+        "hindi_text": "कटोरी या डिब्बे में चीज़ें डालता और निकालता है",
+        "example_text": "Drops blocks or small balls into a plastic bowl or katori",
+        "hindi_example_text": "प्लास्टिक की कटोरी में ब्लॉक या गेंद डालता है",
+        "play_idea": "Give a clean container/katori and large wooden blocks to practice fill-and-dump."
+      },
+      {
+        "id": "lang_12_1",
+        "domain": "language",
+        "text": "Waves 'Ta-Ta / Namaste' or uses gestures like pointing",
+        "hindi_text": "'टा-टा' या 'नमस्ते' करता है और इशारा करता है",
+        "example_text": "Waves hand when someone leaves or folds hands for 'Namaste'",
+        "hindi_example_text": "बाय-बाय ('टा-टा') करते हुए हाथ हिलाता है या 'नमस्ते' करता है",
+        "play_idea": "Practice waving bye-bye and doing 'Namaste' daily during greetings."
+      },
+      {
+        "id": "lang_12_2",
+        "domain": "language",
+        "text": "Says 1-2 meaningful words like 'Mama', 'Papa', 'Doodh', 'Paani'",
+        "hindi_text": "1-2 साफ शब्द बोलता है जैसे 'माँ', 'पापा', 'दूध', 'पानी'",
+        "example_text": "Clearly calls 'Mama', 'Papa', or asks for 'Doodh/Paani'",
+        "hindi_example_text": "'माँ', 'पापा', 'दूध' या 'पानी' साफ बोलता है",
+        "play_idea": "Label everyday items slowly ('Yeh doodh hai', 'Yeh paani hai')."
+      },
+      {
+        "id": "cog_12_1",
+        "domain": "cognitive",
+        "text": "Looks at the right object when named (e.g. 'Gaadi kahan hai?')",
+        "hindi_text": "चीज़ का नाम लेने पर उसकी तरफ देखता है",
+        "example_text": "Looks toward ball or dog when asked 'Gend kahan hai?'",
+        "hindi_example_text": "'गेंद कहाँ है?' पूछने पर गेंद की ओर देखता है",
+        "play_idea": "Ask simple questions while pointing to familiar household objects."
+      },
+      {
+        "id": "se_12_1",
+        "domain": "social_emotional",
+        "text": "Plays simple social games like pat-a-cake or clapping (Taali बजाना)",
+        "hindi_text": "'ताली बजाना' या हाथ मिलाकर खेलता है",
+        "example_text": "Claps hands cheerfully when family sings or says 'Taali bajao!'",
+        "hindi_example_text": "'ताली बजाओ' कहने पर खुशी से ताली बजाता है",
+        "play_idea": "Sing nursery rhymes or bhajan tunes while clapping together."
+      }
+    ],
+    "18": [
+      {
+        "id": "gm_18_1",
+        "domain": "gross_motor",
+        "text": "Walks independently without falling often",
+        "hindi_text": "बिना सहारे के आराम से चलता है",
+        "example_text": "Walks across the house independently without holding onto walls",
+        "hindi_example_text": "घर में बिना किसी सहारे के खुद चलता है",
+        "play_idea": "Create a clear, safe walking path across the room."
+      },
+      {
+        "id": "gm_18_2",
+        "domain": "gross_motor",
+        "text": "Tries to kick a ball or climb onto sofa/chair",
+        "hindi_text": "गेंद को किक मारता है या सोफे पर चढ़ने की कोशिश करता है",
+        "example_text": "Kicks a soft ball forward or climbs onto low seating",
+        "hindi_example_text": "हल्की गेंद को पैर से किक मारता है",
+        "play_idea": "Play soft ball kicking in the veranda or living area."
+      },
+      {
+        "id": "fm_18_1",
+        "domain": "fine_motor",
+        "text": "Holds a spoon and tries to eat self (khichdi/rice)",
+        "hindi_text": "चम्मच पकड़कर खुद खाने की कोशिश करता है",
+        "example_text": "Scoops khichdi or dahi rice with spoon into mouth with some spills",
+        "hindi_example_text": "चम्मच से खिचड़ी या चावल मुँह तक ले जाता है",
+        "play_idea": "Let child practice self-feeding with a small child spoon during meals."
+      },
+      {
+        "id": "lang_18_1",
+        "domain": "language",
+        "text": "Says 6 to 10+ words clearly (e.g. 'Kutta', 'Gaadi', 'Khao')",
+        "hindi_text": "6 से 10 या उससे ज्यादा शब्द बोलता है",
+        "example_text": "Uses words like 'Kutta', 'Gaadi', 'Doodh', 'Ao', 'Jaao'",
+        "hindi_example_text": "'कुत्ता', 'गाड़ी', 'दूध', 'आओ', 'जाओ' जैसे शब्द बोलता है",
+        "play_idea": "Read picture books together and name pictures clearly."
+      },
+      {
+        "id": "cog_18_1",
+        "domain": "cognitive",
+        "text": "Points to 1 or 2 body parts when asked (e.g. 'Aankh kahan hai?')",
+        "hindi_text": "पूछने पर शरीर के 1-2 अंग बताता है (जैसे आँख, नाक)",
+        "example_text": "Points to eyes, nose, or feet when parent asks 'Nose kahan hai?'",
+        "hindi_example_text": "'नाक कहाँ है?' पूछने पर अपनी नाक की तरफ उंगली दिखाता है",
+        "play_idea": "Play 'Body Parts Song' in front of a mirror."
+      },
+      {
+        "id": "se_18_1",
+        "domain": "social_emotional",
+        "text": "Points to show you something interesting (e.g. bird outside window)",
+        "hindi_text": "पसंद की चीज़ दिखाने के लिए उंगली से इशारा करता है",
+        "example_text": "Points out window at a crow/bird or passing scooter",
+        "hindi_example_text": "खिड़की के बाहर चिड़िया या गाड़ी देखकर उंगली से इशारा करता है",
+        "play_idea": "Look and talk excitedly whenever your child points out something outside."
+      }
+    ],
+    "24": [
+      {
+        "id": "gm_24_1",
+        "domain": "gross_motor",
+        "text": "Runs smoothly without stumbling frequently",
+        "hindi_text": "बिना गिरे आराम से दौड़ता है",
+        "example_text": "Runs in park or hallway steadily",
+        "hindi_example_text": "पार्क या आँगन में आराम से दौड़ता है",
+        "play_idea": "Play outdoor tag or run together in open park spaces."
+      },
+      {
+        "id": "gm_24_2",
+        "domain": "gross_motor",
+        "text": "Walks up stairs holding hand or railing",
+        "hindi_text": "हाथ या रेलिंग पकड़कर सीढ़ियाँ चढ़ता है",
+        "example_text": "Climbs house stairs putting both feet on each step holding railing",
+        "hindi_example_text": "रेलिंग पकड़कर सीढ़ी के हर पायदान पर दोनों पैर रखकर चढ़ता है",
+        "play_idea": "Practice stair climbing safely under close adult supervision."
+      },
+      {
+        "id": "fm_24_1",
+        "domain": "fine_motor",
+        "text": "Builds a tower of 4 to 6 blocks or small containers",
+        "hindi_text": "4 से 6 ब्लॉकों या डिब्बों की मीनार बनाता है",
+        "example_text": "Stacks wooden blocks or plastic cups on top of each other",
+        "hindi_example_text": "एक के ऊपर एक 4-6 ब्लॉक या प्लास्टिक के डिब्बे रखता है",
+        "play_idea": "Build block towers together and let child knock them down happily."
+      },
+      {
+        "id": "lang_24_1",
+        "domain": "language",
+        "text": "Combines 2 words together (e.g. 'Doodh do', 'Ghar chalo', 'Papa ao')",
+        "hindi_text": "2 शब्दों को जोड़कर बोलता है (जैसे 'दूध दो', 'घर चलो')",
+        "example_text": "Says short 2-word phrases like 'Doodh do', 'Gaadi dekho', 'Papa ao'",
+        "hindi_example_text": "'दूध दो', 'पापा आओ', 'गाड़ी देखो' जैसे 2 शब्द साथ बोलता है",
+        "play_idea": "Expand on your child's 2-word phrases into short full sentences."
+      },
+      {
+        "id": "cog_24_1",
+        "domain": "cognitive",
+        "text": "Sorts items by simple categories (colors or sizes)",
+        "hindi_text": "रंग या आकार के हिसाब से चीजें अलग करता है",
+        "example_text": "Sorts red balls from blue balls or big spoons from small spoons",
+        "hindi_example_text": "बड़ी और छोटी कटोरी या अलग रंग की गेंदों को छांटता है",
+        "play_idea": "Practice sorting big and small plastic katoris together during cleanup time."
+      },
+      {
+        "id": "se_24_1",
+        "domain": "social_emotional",
+        "text": "Notices when others are sad or hurt (shows empathy)",
+        "hindi_text": "दूसरों के दुखी होने पर ध्यान देता है या हमदर्दी दिखाता है",
+        "example_text": "Looks concerned or hugs parent/sibling if they cry or pretend hurt",
+        "hindi_example_text": "भैया या दीदी के रोने पर पास जाकर प्यार से देखता है या गले लगाता है",
+        "play_idea": "Talk about emotions ('Bhaiya is sad, let's give a hug')."
+      }
+    ],
+    "36": [
+      {
+        "id": "gm_36_1",
+        "domain": "gross_motor",
+        "text": "Pedals a tricycle or jumps forward with both feet",
+        "hindi_text": "तीन पहिए वाली साइकिल (Tricycle) चलाता है या दोनों पैरों से कूदता है",
+        "example_text": "Pedals small tricycle or jumps forward on floor with both feet together",
+        "hindi_example_text": "छोटी ट्राइसाइकिल के पैडल मारता है या दोनों पैरों से आगे छलांग लगाता है",
+        "play_idea": "Set up a fun jumping mat in the living room."
+      },
+      {
+        "id": "fm_36_1",
+        "domain": "fine_motor",
+        "text": "Copies a circle or vertical line using crayon/pencil",
+        "hindi_text": "पेन या मोम के रंग (Crayon) से गोल (Circle) या सीधी रेखा बनाता है",
+        "example_text": "Draws a crude circle or straight line on paper after seeing parent draw it",
+        "hindi_example_text": "कागज पर गोल गोल घेरा या सीधी लाइन खींचता है",
+        "play_idea": "Provide thick crayons and large drawing sheets for free doodling."
+      },
+      {
+        "id": "lang_36_1",
+        "domain": "language",
+        "text": "Asks 'Kyun?' or 'Kya?' and speaks in 3 to 4 word sentences",
+        "hindi_text": "'क्यों?' या 'क्या?' पूछता है और 3-4 शब्दों के वाक्य बोलता है",
+        "example_text": "Asks questions like 'Papa kahan gaye?', 'Kyun jaa rahe ho?'",
+        "hindi_example_text": "'पापा कहाँ गए?', 'यह क्या है?' जैसे सवाल पूछता है",
+        "play_idea": "Answer questions patiently and encourage curiosity."
+      },
+      {
+        "id": "cog_36_1",
+        "domain": "cognitive",
+        "text": "Understands concepts like 'In / Out', 'Big / Small', 'On top'",
+        "hindi_text": "'अंदर / बाहर', 'बड़ा / छोटा' जैसी बातें समझता है",
+        "example_text": "Puts toy 'inside box' or points to 'big elephant / small cat'",
+        "hindi_example_text": "'डिब्बे के अंदर रख दो' कहने पर सामान अंदर रखता है",
+        "play_idea": "Play comparison games using large and small kitchen utensils."
+      },
+      {
+        "id": "se_36_1",
+        "domain": "social_emotional",
+        "text": "Plays alongside or shares toys briefly with other children",
+        "hindi_text": "दूसरे बच्चों के साथ खेलता है या चीज़ें शेयर करता है",
+        "example_text": "Plays parallel with cousins or park friends and shares toys when guided",
+        "hindi_example_text": "पार्क में या घर पर कज़िन्स के साथ मिलकर खेलता है",
+        "play_idea": "Arrange playdates with neighborhood kids or cousins."
+      }
+    ],
+    "48": [
+      {
+        "id": "gm_48_1",
+        "domain": "gross_motor",
+        "text": "Hops on one foot or catches a large bounced ball",
+        "hindi_text": "एक पैर पर फुदकता है या बड़ी गेंद लपकता है",
+        "example_text": "Balances on 1 foot for 3-5 seconds and catches soft bounced ball",
+        "hindi_example_text": "एक पैर पर 3 सेकंड खड़ा रहता है और गेंद पकड़ता है",
+        "play_idea": "Play hopscotch (stapu) or catch-and-throw in the park."
+      },
+      {
+        "id": "fm_48_1",
+        "domain": "fine_motor",
+        "text": "Draws a person with 2 to 4 body parts and uses safety scissors",
+        "hindi_text": "इंसान का चित्र (2-4 अंग के साथ) बनाता है",
+        "example_text": "Draws a face with eyes, mouth, and stick legs on paper",
+        "hindi_example_text": "कागज पर चेहरा, आँखें और हाथ-पैर वाला चित्र बनाता है",
+        "play_idea": "Draw family portraits together on chart paper."
+      },
+      {
+        "id": "lang_48_1",
+        "domain": "language",
+        "text": "Tells simple stories from books or daily events",
+        "hindi_text": "छोटी कहानियाँ या दिन की बातें सुनाता है",
+        "example_text": "Recounts what happened at preschool, park, or grandmom's house",
+        "hindi_example_text": "पार्क या नानी के घर की बातें पूरे वाक्य में सुनाता है",
+        "play_idea": "Ask child 'Aaj park mein kya kiya?' at dinner time."
+      },
+      {
+        "id": "cog_48_1",
+        "domain": "cognitive",
+        "text": "Names 4 or more colors correctly and counts up to 5 items",
+        "hindi_text": "4 रंगों के नाम बताता है और 5 तक गिनती करता है",
+        "example_text": "Correctly names Red, Blue, Green, Yellow and counts 5 biscuits/toys",
+        "hindi_example_text": "लाल, हरा, नीला रंग सही बताता है और 5 तक चीज़ें गिनता है",
+        "play_idea": "Count biscuits or fruits together before eating."
+      },
+      {
+        "id": "se_48_1",
+        "domain": "social_emotional",
+        "text": "Cooperates with group games and follows simple rules",
+        "hindi_text": "समूह के खेलों में सहयोग करता है और नियम मानता है",
+        "example_text": "Waits for turn in games like Musical Chairs or Hide-and-Seek",
+        "hindi_example_text": "'छुपन-छुपाई' (Hide & Seek) में अपनी बारी का इंतज़ार करता है",
+        "play_idea": "Play simple board games or hide-and-seek at home."
+      }
+    ],
+    "60": [
+      {
+        "id": "gm_60_1",
+        "domain": "gross_motor",
+        "text": "Swings independently, skips, or stands on one foot for 10 seconds",
+        "hindi_text": "झूला झूलता है या एक पैर पर 10 सेकंड संतुलन बनाता है",
+        "example_text": "Balances steady on 1 foot for 10 seconds without falling",
+        "hindi_example_text": "एक पैर पर बिना गिरे 10 सेकंड संतुलन बनाता है",
+        "play_idea": "Practice balance walks along a straight chalk line outdoors."
+      },
+      {
+        "id": "fm_60_1",
+        "domain": "fine_motor",
+        "text": "Dresses and undresses independently (buttons/zippers)",
+        "hindi_text": "खुद कपड़े पहनता और उतारता है (बटन/ज़िपर लगाना)",
+        "example_text": "Fastens shirt buttons or zips up jacket without help",
+        "hindi_example_text": "अपनी शर्ट का बटन या पैंट की ज़िप खुद लगाता है",
+        "play_idea": "Encourage child to dress up independently before school."
+      },
+      {
+        "id": "lang_60_1",
+        "domain": "language",
+        "text": "Speaks clearly in full grammatically correct sentences",
+        "hindi_text": "पूरे और साफ वाक्यों में बातचीत करता है",
+        "example_text": "Uses future/past tense ('Kal hum nani ke ghar jaayenge')",
+        "hindi_example_text": "'कल हम नानी के घर जाएँगे' जैसी बातें साफ बोलता है",
+        "play_idea": "Have meaningful daily conversations about feelings and plans."
+      },
+      {
+        "id": "cog_60_1",
+        "domain": "cognitive",
+        "text": "Counts 10 or more objects and recognizes letters/numbers",
+        "hindi_text": "10 तक गिनती करता है और अक्षर/संख्या पहचानता है",
+        "example_text": "Counts 10 spoons accurately and recognizes simple numbers 1-10",
+        "hindi_example_text": "10 चम्मच या पेन सही गिनता है",
+        "play_idea": "Count household objects (spoons, cups, books) together."
+      },
+      {
+        "id": "se_60_1",
+        "domain": "social_emotional",
+        "text": "Shows independence and wants to please friends/family",
+        "hindi_text": "आत्मनिर्भरता दिखाता है और दोस्तों के साथ घुलता-मिलता है",
+        "example_text": "Enjoys helping around the house and playing cooperatively with friends",
+        "hindi_example_text": "घर के कामों में मदद करता है और दोस्तों के साथ मिलकर खेलता है",
+        "play_idea": "Assign small proud household duties like placing napkins on table."
+      }
+    ]
+  }
+}
