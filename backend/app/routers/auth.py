@@ -12,7 +12,8 @@ from app.services.auth_service import (
     require_current_user
 )
 
-router = APIRouter(prefix="/auth", tags=["Authentication"])
+router = APIRouter(prefix="/api/auth", tags=["Authentication"])
+
 
 
 @router.post("/register", response_model=Token, status_code=status.HTTP_201_CREATED)
