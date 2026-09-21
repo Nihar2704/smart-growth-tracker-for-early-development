@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Dashboard';
 import ChildrenList from './pages/ChildrenList';
 import ChildDetail from './pages/ChildDetail';
 import MilestoneTracker from './pages/MilestoneTracker';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import AddChildModal from './components/AddChildModal';
+import { useAuth } from './context/AuthContext';
 import { getChildren, createChild, updateChild, deleteChild } from './services/api';
 
 export default function App() {
+  const { isAuthenticated, loading: authLoading } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [currentView, setCurrentView] = useState('dashboard');
   const [children, setChildren] = useState([]);
   const [selectedChildId, setSelectedChildId] = useState(null);
   const [selectedChild, setSelectedChild] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [childToEdit, setChildToEdit] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   // Default theme: 'light' per UI_Implementation_Guidelines.md
@@ -44,6 +52,7 @@ export default function App() {
   };
 
   const fetchChildrenList = async () => {
+    if (!isAuthenticated) return;
     try {
       setLoading(true);
       const data = await getChildren();
@@ -58,15 +67,17 @@ export default function App() {
       setError(null);
     } catch (err) {
       console.error('Failed to load children:', err);
-      setError('Could not connect to backend server. Make sure FastAPI server is running on http://127.0.0.1:8000');
+      setError('Could not connect to backend server or fetch child records.');
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchChildrenList();
-  }, []);
+    if (isAuthenticated) {
+      fetchChildrenList();
+    }
+  }, [isAuthenticated]);
 
   const handleSelectChild = (id) => {
     setSelectedChildId(id);
@@ -114,6 +125,19 @@ export default function App() {
     }
   };
 
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="text-center space-y-3">
+          <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-sm font-medium text-slate-600">Loading Smart Growth Tracker...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+
   return (
     <div className={`min-h-screen flex flex-col font-sans ${theme}`}>
       <Navbar
@@ -122,86 +146,102 @@ export default function App() {
         onToggleTheme={toggleTheme}
       />
 
-      <div className="flex flex-1 overflow-hidden">
-        <Sidebar
-          currentView={currentView}
-          setCurrentView={(view) => {
-            if ((view === 'growth' || view === 'milestones') && !selectedChildId && children.length > 0) {
-              handleSelectChildForMilestones(children[0].id);
-            }
-            setCurrentView(view);
-          }}
-          selectedChildId={selectedChildId}
-        />
+      <Routes>
+        <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
+        <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/" replace />} />
 
-        <main className="flex-1 p-6 md:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
-          {error && (
-            <div className="mb-6 p-4 border border-[var(--status-error-border)] bg-[var(--status-error-bg)] rounded-lg text-[var(--status-error-text)] text-xs flex items-center justify-between">
-              <span>{error}</span>
-              <button
-                onClick={fetchChildrenList}
-                className="px-3 py-1 btn-secondary text-xs font-medium cursor-pointer"
-              >
-                Retry Connection
-              </button>
-            </div>
-          )}
+        <Route
+          path="/*"
+          element={
+            isAuthenticated ? (
+              <div className="flex flex-1 overflow-hidden">
+                <Sidebar
+                  currentView={currentView}
+                  setCurrentView={(view) => {
+                    if ((view === 'growth' || view === 'milestones') && !selectedChildId && children.length > 0) {
+                      handleSelectChildForMilestones(children[0].id);
+                    }
+                    setCurrentView(view);
+                  }}
+                  selectedChildId={selectedChildId}
+                />
 
-          {currentView === 'dashboard' && (
-            <Dashboard
-              children={children}
-              onSelectChild={handleSelectChild}
-              onOpenAddChild={handleOpenAddModal}
-              onNavigateChildren={() => setCurrentView('children')}
-            />
-          )}
+                <main className="flex-1 p-6 md:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
+                  {error && (
+                    <div className="mb-6 p-4 border border-[var(--status-error-border)] bg-[var(--status-error-bg)] rounded-lg text-[var(--status-error-text)] text-xs flex items-center justify-between">
+                      <span>{error}</span>
+                      <button
+                        onClick={fetchChildrenList}
+                        className="px-3 py-1 btn-secondary text-xs font-medium cursor-pointer"
+                      >
+                        Retry Connection
+                      </button>
+                    </div>
+                  )}
 
-          {currentView === 'children' && (
-            <ChildrenList
-              children={children}
-              onSelectChild={handleSelectChild}
-              onOpenAddChild={handleOpenAddModal}
-              onEditChild={handleOpenEditModal}
-              onDeleteChild={handleDeleteChild}
-            />
-          )}
+                  {currentView === 'dashboard' && (
+                    <Dashboard
+                      children={children}
+                      onSelectChild={handleSelectChild}
+                      onOpenAddChild={handleOpenAddModal}
+                      onNavigateChildren={() => setCurrentView('children')}
+                    />
+                  )}
 
-          {currentView === 'growth' && (
-            selectedChild ? (
-              <ChildDetail
-                child={selectedChild}
-                onBack={() => setCurrentView('children')}
-              />
-            ) : (
-              <div className="panel-card p-8 text-center space-y-3 max-w-md mx-auto my-12">
-                <h3 className="text-base font-semibold text-[var(--text-main)]">No Child Profile Selected</h3>
-                <p className="text-xs text-[var(--text-secondary)]">Please select a child profile from the list or create a new profile.</p>
-                <button
-                  onClick={() => setCurrentView('children')}
-                  className="px-4 py-2 btn-primary text-xs cursor-pointer"
-                >
-                  View Children List
-                </button>
+                  {currentView === 'children' && (
+                    <ChildrenList
+                      children={children}
+                      onSelectChild={handleSelectChild}
+                      onOpenAddChild={handleOpenAddModal}
+                      onEditChild={handleOpenEditModal}
+                      onDeleteChild={handleDeleteChild}
+                    />
+                  )}
+
+                  {currentView === 'growth' && (
+                    selectedChild ? (
+                      <ChildDetail
+                        child={selectedChild}
+                        onBack={() => setCurrentView('children')}
+                      />
+                    ) : (
+                      <div className="panel-card p-8 text-center space-y-3 max-w-md mx-auto my-12">
+                        <h3 className="text-base font-semibold text-[var(--text-main)]">No Child Profile Selected</h3>
+                        <p className="text-xs text-[var(--text-secondary)]">Please select a child profile from the list or create a new profile.</p>
+                        <button
+                          onClick={() => setCurrentView('children')}
+                          className="px-4 py-2 btn-primary text-xs cursor-pointer"
+                        >
+                          View Children List
+                        </button>
+                      </div>
+                    )
+                  )}
+
+                  {currentView === 'milestones' && (
+                    <MilestoneTracker
+                      children={children}
+                      selectedChild={selectedChild}
+                      onSelectChild={handleSelectChildForMilestones}
+                    />
+                  )}
+                </main>
               </div>
+            ) : (
+              <Navigate to="/login" replace />
             )
-          )}
+          }
+        />
+      </Routes>
 
-          {currentView === 'milestones' && (
-            <MilestoneTracker
-              children={children}
-              selectedChild={selectedChild}
-              onSelectChild={handleSelectChildForMilestones}
-            />
-          )}
-        </main>
-      </div>
-
-      <AddChildModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        onSave={handleSaveChild}
-        childToEdit={childToEdit}
-      />
+      {isAuthenticated && (
+        <AddChildModal
+          isOpen={isAddModalOpen}
+          onClose={() => setIsAddModalOpen(false)}
+          onSave={handleSaveChild}
+          childToEdit={childToEdit}
+        />
+      )}
     </div>
   );
 }

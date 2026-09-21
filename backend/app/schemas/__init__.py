@@ -8,6 +8,7 @@ from app.schemas.milestone import (
     MilestoneAssessmentResponse,
     DomainScore,
 )
+from app.schemas.user import UserCreate, UserLogin, UserResponse, Token, TokenData
 
 __all__ = [
     "ChildCreate",
@@ -22,5 +23,11 @@ __all__ = [
     "MilestoneAssessmentCreate",
     "MilestoneAssessmentResponse",
     "DomainScore",
+    "UserCreate",
+    "UserLogin",
+    "UserResponse",
+    "Token",
+    "TokenData",
 ]
+
 

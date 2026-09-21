@@ -17,12 +17,38 @@ def seed_database():
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
 
+    from app.models.user import User
+    from app.services.auth_service import hash_password
+
+    # Seed demo user
+    demo_user = db.query(User).filter(User.email == "parent@example.com").first()
+    if not demo_user:
+        demo_user = User(
+            name="Demo Parent",
+            email="parent@example.com",
+            password_hash=hash_password("password123")
+        )
+        db.add(demo_user)
+        db.commit()
+        db.refresh(demo_user)
+        print("Demo user created successfully.")
+
+    # Assign demo_user.id to any unassigned children
+    unassigned_children = db.query(Child).filter(Child.user_id == None).all()
+    if unassigned_children:
+        for c in unassigned_children:
+            c.user_id = demo_user.id
+        db.commit()
+
     # Check if data already exists
     if db.query(Child).count() > 0:
+
         if db.query(MilestoneAssessment).count() == 0:
             print("Seeding sample milestone assessments for existing children...")
             children = db.query(Child).all()
             for child in children:
+                if not child.user_id:
+                    child.user_id = demo_user.id
                 # Seed a sample milestone assessment
                 responses = [
                     {"question_id": f"gm_24_1", "answer": "achieved"},
@@ -62,12 +88,14 @@ def seed_database():
 
     # Sample Child 1: Aarav (2.5 years old)
     aarav = Child(
+        user_id=demo_user.id,
         name="Aarav Sharma",
         date_of_birth=date(2023, 2, 15),
         sex="male"
     )
     db.add(aarav)
     db.flush()
+
 
     aarav_measurements = [
         {"date": date(2023, 3, 15), "h": 54.0, "w": 4.2},
@@ -90,6 +118,7 @@ def seed_database():
 
     # Sample Child 2: Ananya (1.5 years old)
     ananya = Child(
+        user_id=demo_user.id,
         name="Ananya Verma",
         date_of_birth=date(2024, 1, 10),
         sex="female"
@@ -116,10 +145,12 @@ def seed_database():
 
     # Sample Child 3: Vihaan (4 years old)
     vihaan = Child(
+        user_id=demo_user.id,
         name="Vihaan Patel",
         date_of_birth=date(2021, 11, 5),
         sex="male"
     )
+
     db.add(vihaan)
     db.flush()
 

@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
-from app.routers import children_router, growth_router, milestones_router, predictions_router
+from app.routers import auth_router, children_router, growth_router, milestones_router, predictions_router
 
 # Create database tables automatically on startup
 Base.metadata.create_all(bind=engine)
@@ -28,10 +28,12 @@ app.add_middleware(
 )
 
 # Register routers
+app.include_router(auth_router)
 app.include_router(children_router)
 app.include_router(growth_router)
 app.include_router(milestones_router)
 app.include_router(predictions_router)
+
 
 
 
