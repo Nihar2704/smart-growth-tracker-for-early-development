@@ -11,6 +11,7 @@ from datetime import date
 
 from app.database import get_db
 from app.models.child import Child
+from app.models.user import User
 from app.models.growth import GrowthMeasurement
 from app.models.milestone import MilestoneAssessment
 from app.schemas.milestone import (
@@ -26,6 +27,8 @@ from app.rules.rule_engine import (
     calculate_age_months,
     DOMAIN_NAMES,
 )
+from app.services.auth_service import require_current_user
+from app.routers.children import check_child_access
 
 router = APIRouter(tags=["milestones"])
 
@@ -34,8 +37,6 @@ def _format_assessment_response(a: MilestoneAssessment) -> MilestoneAssessmentRe
     guidance_list = json.loads(a.guidance_json) if a.guidance_json else []
     responses_map = json.loads(a.responses_json) if a.responses_json else {}
 
-    # Build domain breakdown list from scores stored
-    # Note: we also re-count for domain breakdown representation
     dataset_questions = get_questions_for_age(a.age_months)[1]
     domain_totals = {d: 0 for d in DOMAIN_NAMES.keys()}
     domain_achieved = {d: 0 for d in DOMAIN_NAMES.keys()}
@@ -62,16 +63,24 @@ def _format_assessment_response(a: MilestoneAssessment) -> MilestoneAssessmentRe
     }
 
     domain_breakdown = []
-    for domain_key, domain_title in DOMAIN_NAMES.items():
+    for key, name in DOMAIN_NAMES.items():
+        score = scores_map.get(key, 0.0)
+        tot = domain_totals.get(key, 0)
+        ach = domain_achieved.get(key, 0)
+        not_obs = domain_not_observed.get(key, 0)
+        uns = domain_unsure.get(key, 0)
+
         domain_breakdown.append(
             DomainScore(
-                domain=domain_key,
-                domain_name=domain_title,
-                score=scores_map.get(domain_key, 0.0),
-                total_questions=domain_totals.get(domain_key, 0),
-                achieved_count=domain_achieved.get(domain_key, 0),
-                not_observed_count=domain_not_observed.get(domain_key, 0),
-                unsure_count=domain_unsure.get(domain_key, 0),
+                domain=key,
+                domain_key=key,
+                domain_name=name,
+                score=round(score, 1),
+                score_percentage=round(score, 1),
+                total_questions=tot,
+                achieved_count=ach,
+                not_observed_count=not_obs,
+                unsure_count=uns,
             )
         )
 
@@ -92,6 +101,7 @@ def _format_assessment_response(a: MilestoneAssessment) -> MilestoneAssessmentRe
         status=a.status,
         guidance=guidance_list,
         domain_breakdown=domain_breakdown,
+        domain_scores=domain_breakdown,
         responses=responses_map,
         created_at=a.created_at,
     )
@@ -116,7 +126,6 @@ def get_milestone_questions(age_months: int):
         for q in questions
     ]
 
-
     return MilestoneQuestionSet(
         age_months=age_months,
         age_group=age_group,
@@ -133,10 +142,12 @@ def create_milestone_assessment(
     child_id: int,
     assessment_in: MilestoneAssessmentCreate,
     db: Session = Depends(get_db),
+    current_user: User = Depends(require_current_user)
 ):
     child = db.query(Child).filter(Child.id == child_id).first()
     if not child:
         raise HTTPException(status_code=404, detail="Child profile not found")
+    check_child_access(child, current_user)
 
     if assessment_in.assessment_date > date.today():
         raise HTTPException(status_code=400, detail="Assessment date cannot be in the future")
@@ -144,7 +155,6 @@ def create_milestone_assessment(
     if assessment_in.assessment_date < child.date_of_birth:
         raise HTTPException(status_code=400, detail="Assessment date cannot be before date of birth")
 
-    # Fetch latest growth measurement for growth-integrated rule checking
     latest_growth = (
         db.query(GrowthMeasurement)
         .filter(GrowthMeasurement.child_id == child_id)
@@ -160,7 +170,6 @@ def create_milestone_assessment(
             "bmi": latest_growth.bmi,
         }
 
-    # Format responses into list of dicts for rule engine
     responses_list = [
         {"question_id": r.question_id, "answer": r.answer}
         for r in assessment_in.responses
@@ -199,10 +208,15 @@ def create_milestone_assessment(
 
 
 @router.get("/api/children/{child_id}/assessments", response_model=List[MilestoneAssessmentResponse])
-def get_child_assessments(child_id: int, db: Session = Depends(get_db)):
+def get_child_assessments(
+    child_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_current_user)
+):
     child = db.query(Child).filter(Child.id == child_id).first()
     if not child:
         raise HTTPException(status_code=404, detail="Child profile not found")
+    check_child_access(child, current_user)
 
     assessments = (
         db.query(MilestoneAssessment)
@@ -215,10 +229,16 @@ def get_child_assessments(child_id: int, db: Session = Depends(get_db)):
 
 
 @router.get("/api/children/{child_id}/assessments/{assessment_id}", response_model=MilestoneAssessmentResponse)
-def get_assessment_detail(child_id: int, assessment_id: int, db: Session = Depends(get_db)):
+def get_assessment_detail(
+    child_id: int,
+    assessment_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_current_user)
+):
     child = db.query(Child).filter(Child.id == child_id).first()
     if not child:
         raise HTTPException(status_code=404, detail="Child profile not found")
+    check_child_access(child, current_user)
 
     assessment = (
         db.query(MilestoneAssessment)

@@ -1,13 +1,41 @@
 import React from 'react';
-import { Users, TrendingUp, CheckCircle2, Plus, ArrowRight, ShieldCheck, Brain } from 'lucide-react';
+import { Users, TrendingUp, CheckCircle2, Plus, ArrowRight, ShieldCheck, Brain, ShieldAlert, KeyRound } from 'lucide-react';
 import ChildCard from '../components/ChildCard';
+import { useAuth } from '../context/AuthContext';
 
 export default function Dashboard({ children, onSelectChild, onOpenAddChild, onNavigateChildren }) {
+  const { user, isAdmin } = useAuth();
   const totalChildren = children.length;
 
   return (
     <div className="space-y-7">
-      {/* Page Title & Context Header */}
+      {/* Admin Specific Header Banner */}
+      {isAdmin && (
+        <div className="bg-purple-900 text-purple-50 p-6 rounded-xl shadow-md border border-purple-700 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-0.5 rounded text-xs font-bold uppercase tracking-wider bg-purple-800 text-purple-200 border border-purple-600">
+                System Admin Control Panel
+              </span>
+            </div>
+            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+              <ShieldAlert className="w-5 h-5 text-purple-300" />
+              Administrator System-Wide Scope
+            </h2>
+            <p className="text-xs text-purple-200 max-w-2xl leading-relaxed">
+              You are logged in as <strong>{user?.name}</strong> ({user?.email}). You have system-wide access to view all child profiles across all parent accounts, oversee monitoring metrics, and audit system activity.
+            </p>
+          </div>
+
+          <div className="bg-purple-950/60 p-3.5 rounded-lg border border-purple-800 text-right shrink-0">
+            <p className="text-xs text-purple-300 font-medium">System Total Scope</p>
+            <p className="text-2xl font-black text-white">{totalChildren} Profiles</p>
+            <p className="text-[11px] text-purple-400 mt-0.5">Across All Registered Parents</p>
+          </div>
+        </div>
+      )}
+
+      {/* Standard Context Header */}
       <div className="panel-card p-7 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
@@ -40,11 +68,13 @@ export default function Dashboard({ children, onSelectChild, onOpenAddChild, onN
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <div className="panel-card p-5 space-y-1.5">
           <div className="flex items-center justify-between text-sm text-[var(--text-secondary)] font-medium">
-            <span>Registered Children</span>
+            <span>{isAdmin ? 'System Children' : 'Registered Children'}</span>
             <Users className="w-5 h-5 text-[var(--text-secondary)]" />
           </div>
           <p className="text-3xl font-bold text-[var(--text-main)]">{totalChildren}</p>
-          <p className="text-xs text-[var(--text-secondary)]">Active child profiles</p>
+          <p className="text-xs text-[var(--text-secondary)]">
+            {isAdmin ? 'System-wide child count' : 'Active child profiles'}
+          </p>
         </div>
 
         <div className="panel-card p-5 space-y-1.5">
@@ -70,8 +100,8 @@ export default function Dashboard({ children, onSelectChild, onOpenAddChild, onN
             <span>ML Engine</span>
             <Brain className="w-5 h-5 text-[var(--primary)]" />
           </div>
-          <p className="text-base font-semibold text-[var(--text-main)] mt-1">Gradient Boosting</p>
-          <p className="text-xs text-[var(--primary)] font-bold">99.8% Accuracy</p>
+          <p className="text-base font-semibold text-[var(--text-main)] mt-1">Calibrated Random Forest</p>
+          <p className="text-xs text-[var(--primary)] font-bold">94.3% F1-Score</p>
         </div>
       </div>
 
@@ -79,7 +109,7 @@ export default function Dashboard({ children, onSelectChild, onOpenAddChild, onN
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
-            Child Profiles ({totalChildren})
+            {isAdmin ? `All System Child Profiles (${totalChildren})` : `Child Profiles (${totalChildren})`}
           </h2>
           {totalChildren > 0 && (
             <button

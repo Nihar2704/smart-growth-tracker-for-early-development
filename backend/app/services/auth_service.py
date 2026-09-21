@@ -19,7 +19,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 hours
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login", auto_error=False)
 
 
-
 def hash_password(password: str) -> str:
     pwd_bytes = password.encode("utf-8")
     salt = bcrypt.gensalt()
@@ -61,7 +60,7 @@ def get_current_user(
         user_id: int = payload.get("user_id")
         if email is None or user_id is None:
             raise credentials_exception
-        token_data = TokenData(email=email, user_id=user_id)
+        token_data = TokenData(email=email, user_id=user_id, role=payload.get("role"))
     except JWTError:
         raise credentials_exception
 
@@ -79,5 +78,16 @@ def require_current_user(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Authentication required",
             headers={"WWW-Authenticate": "Bearer"},
+        )
+    return current_user
+
+
+def require_admin_user(
+    current_user: User = Depends(require_current_user)
+) -> User:
+    if current_user.role != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin privileges required to access this resource"
         )
     return current_user

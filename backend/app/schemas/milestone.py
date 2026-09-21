@@ -13,7 +13,6 @@ class MilestoneQuestion(BaseModel):
     play_idea: Optional[str] = None
 
 
-
 class MilestoneQuestionSet(BaseModel):
     age_months: int
     age_group: int
@@ -31,9 +30,11 @@ class MilestoneAssessmentCreate(BaseModel):
 
 
 class DomainScore(BaseModel):
-    domain: str
+    domain: Optional[str] = None
+    domain_key: Optional[str] = None
     domain_name: str
-    score: float  # Percentage (0-100)
+    score: Optional[float] = 0.0
+    score_percentage: Optional[float] = 0.0
     total_questions: int
     achieved_count: int
     not_observed_count: int
@@ -56,8 +57,9 @@ class MilestoneAssessmentResponse(BaseModel):
     completion_ratio: float
     status: str
     guidance: List[str]
-    domain_breakdown: List[DomainScore]
-    responses: Dict[str, str]
+    domain_breakdown: Optional[List[DomainScore]] = []
+    domain_scores: Optional[List[DomainScore]] = []
+    responses: Optional[Dict[str, str]] = {}
     created_at: datetime
 
     class Config:

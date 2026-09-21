@@ -12,6 +12,7 @@ from datetime import date
 
 from app.database import get_db
 from app.models.child import Child
+from app.models.user import User
 from app.models.growth import GrowthMeasurement
 from app.models.milestone import MilestoneAssessment
 from app.models.prediction import Prediction
@@ -22,6 +23,8 @@ from app.schemas.prediction import (
     FactorItem,
 )
 from app.services.ml_service import ml_service
+from app.services.auth_service import require_current_user
+from app.routers.children import check_child_access
 
 router = APIRouter(tags=["predictions"])
 
@@ -31,7 +34,6 @@ def _format_prediction_response(p: Prediction) -> PredictionResponse:
     formatted_factors = []
     for f in factors_list:
         val_str = f.get("value", "")
-        # Sanitize any legacy 10000% values saved in DB
         if "10000%" in val_str:
             val_str = val_str.replace("10000%", "100%")
         elif "000%" in val_str:
@@ -60,7 +62,6 @@ def _format_prediction_response(p: Prediction) -> PredictionResponse:
     )
 
 
-
 @router.get("/api/ml/info", response_model=ModelInfoResponse)
 def get_model_info():
     info = ml_service.get_info()
@@ -83,12 +84,13 @@ def create_prediction(
     child_id: int,
     req: Optional[PredictionRequest] = None,
     db: Session = Depends(get_db),
+    current_user: User = Depends(require_current_user)
 ):
     child = db.query(Child).filter(Child.id == child_id).first()
     if not child:
         raise HTTPException(status_code=404, detail="Child profile not found")
+    check_child_access(child, current_user)
 
-    # Fetch latest growth measurement
     latest_growth = (
         db.query(GrowthMeasurement)
         .filter(GrowthMeasurement.child_id == child_id)
@@ -102,7 +104,6 @@ def create_prediction(
             detail="Growth measurement required before generating ML prediction.",
         )
 
-    # Fetch targeted or latest milestone assessment
     assessment_id = req.milestone_assessment_id if req else None
     if assessment_id:
         assessment = (
@@ -121,7 +122,6 @@ def create_prediction(
             .first()
         )
 
-    # Default baseline scores if no milestone assessment recorded yet (normalized 0.0 - 1.0)
     gm = (assessment.gross_motor_score / 100.0) if assessment else 1.0
     fm = (assessment.fine_motor_score / 100.0) if assessment else 1.0
     lang = (assessment.language_score / 100.0) if assessment else 1.0
@@ -133,7 +133,6 @@ def create_prediction(
     comp_ratio = assessment.completion_ratio if assessment else 1.0
     ref_date = assessment.assessment_date if assessment else latest_growth.measurement_date
 
-    # Run ML prediction logic
     pred_class, prob_pct, status_str, guidance_str, factors = ml_service.predict(
         child_dob=child.date_of_birth,
         sex_str=child.sex,
@@ -173,10 +172,15 @@ def create_prediction(
     "/api/children/{child_id}/predictions",
     response_model=List[PredictionResponse],
 )
-def get_child_predictions(child_id: int, db: Session = Depends(get_db)):
+def get_child_predictions(
+    child_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_current_user)
+):
     child = db.query(Child).filter(Child.id == child_id).first()
     if not child:
         raise HTTPException(status_code=404, detail="Child profile not found")
+    check_child_access(child, current_user)
 
     predictions = (
         db.query(Prediction)

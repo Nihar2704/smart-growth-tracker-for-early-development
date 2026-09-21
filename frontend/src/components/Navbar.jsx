@@ -13,6 +13,8 @@ export default function Navbar({ onOpenAddChild, theme, onToggleTheme }) {
     navigate('/login');
   };
 
+  const isAdmin = user?.role === 'admin';
+
   return (
     <header className="h-18 panel-card border-x-0 border-t-0 rounded-none px-6 flex items-center justify-between sticky top-0 z-30 shadow-xs">
       {/* Brand Header */}
@@ -72,11 +74,20 @@ export default function Navbar({ onOpenAddChild, theme, onToggleTheme }) {
         {isAuthenticated ? (
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 text-sm">
-              <div className="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+              <div className={`w-9 h-9 rounded-lg flex items-center justify-center font-bold ${
+                isAdmin ? 'bg-purple-100 text-purple-800' : 'bg-emerald-100 text-emerald-800'
+              }`}>
                 {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
               </div>
               <div className="hidden md:block text-left leading-tight">
-                <p className="font-semibold text-[var(--text-main)]">{user?.name || 'Parent'}</p>
+                <div className="flex items-center gap-2">
+                  <p className="font-semibold text-[var(--text-main)]">{user?.name || 'User'}</p>
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                    isAdmin ? 'bg-purple-100 text-purple-800 border border-purple-200' : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                  }`}>
+                    {isAdmin ? 'System Admin' : 'Parent'}
+                  </span>
+                </div>
                 <p className="text-xs text-[var(--text-secondary)] flex items-center gap-1 mt-0.5">
                   <ShieldCheck className="w-4 h-4 text-[var(--primary)]" />
                   {user?.email || 'Logged In'}

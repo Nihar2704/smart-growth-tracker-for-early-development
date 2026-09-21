@@ -15,7 +15,6 @@ from app.services.auth_service import (
 router = APIRouter(prefix="/api/auth", tags=["Authentication"])
 
 
-
 @router.post("/register", response_model=Token, status_code=status.HTTP_201_CREATED)
 def register(user_in: UserCreate, db: Session = Depends(get_db)):
     # Check if user with email already exists
@@ -26,18 +25,20 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)):
             detail="User with this email already exists."
         )
 
-    # Create new user
+    # Create new user (default role is parent unless specified)
+    user_role = user_in.role if user_in.role in ["parent", "admin"] else "parent"
     new_user = User(
         name=user_in.name,
         email=user_in.email.lower(),
-        password_hash=hash_password(user_in.password)
+        password_hash=hash_password(user_in.password),
+        role=user_role
     )
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
 
     # Generate token
-    access_token = create_access_token(data={"sub": new_user.email, "user_id": new_user.id})
+    access_token = create_access_token(data={"sub": new_user.email, "user_id": new_user.id, "role": new_user.role})
 
     return Token(
         access_token=access_token,
@@ -56,7 +57,7 @@ def login(user_in: UserLogin, db: Session = Depends(get_db)):
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    access_token = create_access_token(data={"sub": user.email, "user_id": user.id})
+    access_token = create_access_token(data={"sub": user.email, "user_id": user.id, "role": user.role})
 
     return Token(
         access_token=access_token,

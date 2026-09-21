@@ -1,86 +1,63 @@
 import os
 import sys
+import json
+from datetime import date
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from datetime import date
-from app.database import SessionLocal, engine, Base
+from app.database import SessionLocal, engine, Base, ensure_schema_up_to_date
+from app.models.user import User
 from app.models.child import Child
 from app.models.growth import GrowthMeasurement
-from app.services.growth_service import calculate_bmi, validate_growth_measurement
-
 from app.models.milestone import MilestoneAssessment
+from app.services.auth_service import hash_password
+from app.services.growth_service import calculate_bmi
 from app.rules.rule_engine import evaluate_milestone_assessment
-import json
+
 
 def seed_database():
     Base.metadata.create_all(bind=engine)
+    ensure_schema_up_to_date()
     db = SessionLocal()
 
-    from app.models.user import User
-    from app.services.auth_service import hash_password
 
-    # Seed demo user
-    demo_user = db.query(User).filter(User.email == "parent@example.com").first()
-    if not demo_user:
-        demo_user = User(
+    # 1. Seed Demo Parent Account
+    demo_parent = db.query(User).filter(User.email == "parent@example.com").first()
+    if not demo_parent:
+        demo_parent = User(
             name="Demo Parent",
             email="parent@example.com",
-            password_hash=hash_password("password123")
+            password_hash=hash_password("password123"),
+            role="parent"
         )
-        db.add(demo_user)
+        db.add(demo_parent)
         db.commit()
-        db.refresh(demo_user)
-        print("Demo user created successfully.")
+        db.refresh(demo_parent)
+        print("Demo parent account created.")
 
-    # Assign demo_user.id to any unassigned children
+    # 2. Seed System Admin Account
+    admin_user = db.query(User).filter(User.email == "admin@example.com").first()
+    if not admin_user:
+        admin_user = User(
+            name="System Admin",
+            email="admin@example.com",
+            password_hash=hash_password("admin123"),
+            role="admin"
+        )
+        db.add(admin_user)
+        db.commit()
+        db.refresh(admin_user)
+        print("System admin account created.")
+
+    # Assign demo_parent.id to any unassigned children
     unassigned_children = db.query(Child).filter(Child.user_id == None).all()
     if unassigned_children:
         for c in unassigned_children:
-            c.user_id = demo_user.id
+            c.user_id = demo_parent.id
         db.commit()
 
-    # Check if data already exists
     if db.query(Child).count() > 0:
-
-        if db.query(MilestoneAssessment).count() == 0:
-            print("Seeding sample milestone assessments for existing children...")
-            children = db.query(Child).all()
-            for child in children:
-                if not child.user_id:
-                    child.user_id = demo_user.id
-                # Seed a sample milestone assessment
-                responses = [
-                    {"question_id": f"gm_24_1", "answer": "achieved"},
-                    {"question_id": f"gm_24_2", "answer": "achieved"},
-                    {"question_id": f"fm_24_1", "answer": "achieved"},
-                    {"question_id": f"lang_24_1", "answer": "achieved"},
-                    {"question_id": f"cog_24_1", "answer": "achieved"},
-                    {"question_id": f"se_24_1", "answer": "achieved"},
-                ]
-                eval_res = evaluate_milestone_assessment(child.date_of_birth, date.today(), responses)
-                assessment = MilestoneAssessment(
-                    child_id=child.id,
-                    age_months=eval_res["age_months"],
-                    age_group=eval_res["age_group"],
-                    assessment_date=date.today(),
-                    gross_motor_score=eval_res["gross_motor_score"],
-                    fine_motor_score=eval_res["fine_motor_score"],
-                    language_score=eval_res["language_score"],
-                    cognitive_score=eval_res["cognitive_score"],
-                    social_emotional_score=eval_res["social_emotional_score"],
-                    not_observed_count=eval_res["not_observed_count"],
-                    unsure_count=eval_res["unsure_count"],
-                    completion_ratio=eval_res["completion_ratio"],
-                    status=eval_res["status"],
-                    guidance_json=json.dumps(eval_res["guidance"]),
-                    responses_json=json.dumps(eval_res["responses_map"]),
-                )
-                db.add(assessment)
-            db.commit()
-            print("Milestone assessments seeded successfully!")
-        else:
-            print("Database already contains records. Skipping seed.")
+        print("Database already contains children records. Skipping child seed.")
         db.close()
         return
 
@@ -88,14 +65,13 @@ def seed_database():
 
     # Sample Child 1: Aarav (2.5 years old)
     aarav = Child(
-        user_id=demo_user.id,
+        user_id=demo_parent.id,
         name="Aarav Sharma",
         date_of_birth=date(2023, 2, 15),
         sex="male"
     )
     db.add(aarav)
     db.flush()
-
 
     aarav_measurements = [
         {"date": date(2023, 3, 15), "h": 54.0, "w": 4.2},
@@ -118,7 +94,7 @@ def seed_database():
 
     # Sample Child 2: Ananya (1.5 years old)
     ananya = Child(
-        user_id=demo_user.id,
+        user_id=demo_parent.id,
         name="Ananya Verma",
         date_of_birth=date(2024, 1, 10),
         sex="female"
@@ -143,43 +119,15 @@ def seed_database():
             measurement_date=m["date"]
         ))
 
-    # Sample Child 3: Vihaan (4 years old)
-    vihaan = Child(
-        user_id=demo_user.id,
-        name="Vihaan Patel",
-        date_of_birth=date(2021, 11, 5),
-        sex="male"
-    )
-
-    db.add(vihaan)
-    db.flush()
-
-    vihaan_measurements = [
-        {"date": date(2022, 11, 5), "h": 75.2, "w": 9.6},
-        {"date": date(2023, 11, 5), "h": 87.0, "w": 12.2},
-        {"date": date(2024, 11, 5), "h": 96.5, "w": 14.8},
-        {"date": date(2025, 5, 1), "h": 101.2, "w": 16.1},
-    ]
-
-    for m in vihaan_measurements:
-        bmi = calculate_bmi(m["h"], m["w"])
-        db.add(GrowthMeasurement(
-            child_id=vihaan.id,
-            height_cm=m["h"],
-            weight_kg=m["w"],
-            bmi=bmi,
-            measurement_date=m["date"]
-        ))
-
     # Seed sample milestone assessments for each child
-    for child in [aarav, ananya, vihaan]:
+    for child in [aarav, ananya]:
         responses = [
-            {"question_id": f"gm_24_1", "answer": "achieved"},
-            {"question_id": f"gm_24_2", "answer": "achieved"},
-            {"question_id": f"fm_24_1", "answer": "achieved"},
-            {"question_id": f"lang_24_1", "answer": "achieved"},
-            {"question_id": f"cog_24_1", "answer": "achieved"},
-            {"question_id": f"se_24_1", "answer": "achieved"},
+            {"question_id": "gm_24_1", "answer": "achieved"},
+            {"question_id": "gm_24_2", "answer": "achieved"},
+            {"question_id": "fm_24_1", "answer": "achieved"},
+            {"question_id": "lang_24_1", "answer": "achieved"},
+            {"question_id": "cog_24_1", "answer": "achieved"},
+            {"question_id": "se_24_1", "answer": "achieved"},
         ]
         eval_res = evaluate_milestone_assessment(child.date_of_birth, date.today(), responses)
         assessment = MilestoneAssessment(
@@ -202,11 +150,8 @@ def seed_database():
         db.add(assessment)
 
     db.commit()
-    print("Database successfully seeded with children, growth records, and milestone assessments!")
+    print("Database successfully seeded with Parent, Admin, Children, and Milestone Assessments!")
     db.close()
-
-if __name__ == "__main__":
-    seed_database()
 
 
 if __name__ == "__main__":

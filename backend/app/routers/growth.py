@@ -9,13 +9,17 @@ from typing import List
 
 from app.database import get_db
 from app.models.child import Child
+from app.models.user import User
 from app.models.growth import GrowthMeasurement
 from app.schemas.growth import GrowthCreate, GrowthResponse, GrowthSummary
 from app.services.growth_service import (
     calculate_age_in_months,
     calculate_bmi,
     validate_growth_measurement,
+    get_growth_summary
 )
+from app.services.auth_service import require_current_user
+from app.routers.children import check_child_access
 
 router = APIRouter(tags=["growth"])
 
@@ -35,10 +39,16 @@ def _enrich_growth_response(m: GrowthMeasurement, dob) -> GrowthResponse:
 
 
 @router.post("/api/children/{child_id}/measurements", response_model=GrowthResponse, status_code=status.HTTP_201_CREATED)
-def add_growth_measurement(child_id: int, growth_in: GrowthCreate, db: Session = Depends(get_db)):
+def add_growth_measurement(
+    child_id: int,
+    growth_in: GrowthCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_current_user)
+):
     child = db.query(Child).filter(Child.id == child_id).first()
     if not child:
         raise HTTPException(status_code=404, detail="Child profile not found")
+    check_child_access(child, current_user)
 
     try:
         validate_growth_measurement(
@@ -59,19 +69,22 @@ def add_growth_measurement(child_id: int, growth_in: GrowthCreate, db: Session =
         bmi=bmi,
         measurement_date=growth_in.measurement_date,
     )
-
     db.add(measurement)
     db.commit()
     db.refresh(measurement)
-
     return _enrich_growth_response(measurement, child.date_of_birth)
 
 
 @router.get("/api/children/{child_id}/measurements", response_model=List[GrowthResponse])
-def get_growth_measurements(child_id: int, db: Session = Depends(get_db)):
+def list_growth_measurements(
+    child_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_current_user)
+):
     child = db.query(Child).filter(Child.id == child_id).first()
     if not child:
         raise HTTPException(status_code=404, detail="Child profile not found")
+    check_child_access(child, current_user)
 
     measurements = (
         db.query(GrowthMeasurement)
@@ -79,48 +92,38 @@ def get_growth_measurements(child_id: int, db: Session = Depends(get_db)):
         .order_by(GrowthMeasurement.measurement_date.asc())
         .all()
     )
-
     return [_enrich_growth_response(m, child.date_of_birth) for m in measurements]
 
 
 @router.get("/api/children/{child_id}/growth-summary", response_model=GrowthSummary)
-def get_growth_summary(child_id: int, db: Session = Depends(get_db)):
+def read_growth_summary(
+    child_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_current_user)
+):
     child = db.query(Child).filter(Child.id == child_id).first()
     if not child:
         raise HTTPException(status_code=404, detail="Child profile not found")
+    check_child_access(child, current_user)
 
-    measurements = (
-        db.query(GrowthMeasurement)
-        .filter(GrowthMeasurement.child_id == child_id)
-        .order_by(GrowthMeasurement.measurement_date.asc())
-        .all()
-    )
-
-    enriched = [_enrich_growth_response(m, child.date_of_birth) for m in measurements]
-
-    latest_h = enriched[-1].height_cm if enriched else None
-    latest_w = enriched[-1].weight_kg if enriched else None
-    latest_bmi = enriched[-1].bmi if enriched else None
-    latest_date = enriched[-1].measurement_date if enriched else None
-
-    return GrowthSummary(
-        child_id=child.id,
-        child_name=child.name,
-        total_measurements=len(enriched),
-        latest_height_cm=latest_h,
-        latest_weight_kg=latest_w,
-        latest_bmi=latest_bmi,
-        latest_measurement_date=latest_date,
-        measurements=enriched,
-    )
+    summary_data = get_growth_summary(db, child)
+    return GrowthSummary(**summary_data)
 
 
 @router.delete("/api/measurements/{measurement_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_measurement(measurement_id: int, db: Session = Depends(get_db)):
-    m = db.query(GrowthMeasurement).filter(GrowthMeasurement.id == measurement_id).first()
-    if not m:
+def delete_growth_measurement(
+    measurement_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_current_user)
+):
+    measurement = db.query(GrowthMeasurement).filter(GrowthMeasurement.id == measurement_id).first()
+    if not measurement:
         raise HTTPException(status_code=404, detail="Measurement record not found")
 
-    db.delete(m)
+    child = db.query(Child).filter(Child.id == measurement.child_id).first()
+    if child:
+        check_child_access(child, current_user)
+
+    db.delete(measurement)
     db.commit()
     return None

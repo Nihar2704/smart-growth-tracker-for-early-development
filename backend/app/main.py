@@ -6,11 +6,13 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.database import engine, Base
+from app.database import engine, Base, ensure_schema_up_to_date
 from app.routers import auth_router, children_router, growth_router, milestones_router, predictions_router
 
-# Create database tables automatically on startup
+# Create database tables automatically on startup and ensure schemas are up to date
 Base.metadata.create_all(bind=engine)
+ensure_schema_up_to_date()
+
 
 app = FastAPI(
     title="Smart Growth Tracker API",
