@@ -23,7 +23,7 @@ export default function Dashboard({ children, onSelectChild, onOpenAddChild, onN
               Administrator System-Wide Scope
             </h2>
             <p className="text-xs text-purple-200 max-w-2xl leading-relaxed">
-              You are logged in as <strong>{user?.name}</strong> ({user?.email}). You have system-wide access to view all child profiles across all parent accounts, oversee monitoring metrics, and audit system activity.
+              You are logged in as <strong>{user?.name}</strong>. You have system-wide access to view all child profiles across all parent accounts, oversee monitoring metrics, and audit system activity.
             </p>
           </div>
 

@@ -25,11 +25,9 @@ export default function Navbar({ onOpenAddChild, theme, onToggleTheme }) {
         <div>
           <div className="flex items-center gap-2">
             <h1 className="font-bold text-lg tracking-tight leading-none text-[var(--text-main)]">
-              Smart Growth Tracker
+              GrowSense AI
             </h1>
-            <span className="px-2.5 py-0.5 rounded text-xs font-semibold uppercase tracking-wider panel-card-subtle text-[var(--text-secondary)]">
-              MVP
-            </span>
+            
           </div>
           <p className="text-sm text-[var(--text-secondary)] font-normal mt-1">
             Early Childhood Development & Growth Monitoring

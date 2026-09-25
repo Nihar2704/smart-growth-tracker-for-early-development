@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ShieldCheck, FileText, CheckCircle2, AlertCircle, Info, ChevronDown, ChevronUp, Share2, Check } from 'lucide-react';
+import { getMilestoneQuestions } from '../services/api';
 
 const STATUS_CONFIG = {
   'On Track': {
@@ -7,6 +8,12 @@ const STATUS_CONFIG = {
     icon: CheckCircle2,
     title: 'Development On Track',
     subtitle: 'Child is meeting expected age-appropriate milestones across physical, motor, speech, and cognitive domains.',
+  },
+  'Routine Development Monitoring': {
+    badge: 'badge-routine',
+    icon: CheckCircle2,
+    title: 'Routine Development Monitoring',
+    subtitle: 'Overall milestone progress aligns with expected age benchmarks. Continue regular developmental monitoring.',
   },
   'Routine Monitoring': {
     badge: 'badge-routine',
@@ -31,6 +38,27 @@ const STATUS_CONFIG = {
 export default function MilestoneResultCard({ assessment }) {
   const [showDoctorNotes, setShowDoctorNotes] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [questionsMap, setQuestionsMap] = useState({});
+
+  useEffect(() => {
+    if (assessment && assessment.age_months !== undefined) {
+      getMilestoneQuestions(assessment.age_months)
+        .then((data) => {
+          if (data && data.questions) {
+            const qMap = {};
+            data.questions.forEach((q) => {
+              qMap[q.id] = {
+                text: q.text,
+                hindi_text: q.hindi_text || '',
+                domain: q.domain
+              };
+            });
+            setQuestionsMap(qMap);
+          }
+        })
+        .catch((err) => console.error('Could not fetch questions map for WhatsApp share:', err));
+    }
+  }, [assessment]);
 
   if (!assessment) return null;
 
@@ -39,21 +67,49 @@ export default function MilestoneResultCard({ assessment }) {
 
   const generateWhatsAppMessage = () => {
     const domainText = assessment.domain_breakdown
-      ? assessment.domain_breakdown.map((d) => `• ${d.domain_name}: ${d.score}% (${d.achieved_count} observed)`).join('\n')
+      ? assessment.domain_breakdown
+          .map((d) => `• *${d.domain_name}*: ${d.score || d.score_percentage}% (${d.achieved_count} Observed${d.not_observed_count > 0 ? `, ${d.not_observed_count} Emerging` : ''})`)
+          .join('\n')
       : `• Physical: ${assessment.gross_motor_score}%\n• Fine Motor: ${assessment.fine_motor_score}%\n• Speech: ${assessment.language_score}%\n• Cognitive: ${assessment.cognitive_score}%\n• Social: ${assessment.social_emotional_score}%`;
 
-    return `🏥 *Smart Growth Tracker — Pediatric Health & Milestone Summary*
+    // Format itemized questionnaire questions and answers
+    let questionnaireText = '';
+    if (assessment.responses && Object.keys(assessment.responses).length > 0) {
+      const formattedQ = Object.entries(assessment.responses)
+        .map(([qId, ans], index) => {
+          const qObj = questionsMap[qId];
+          const qTitle = qObj?.text ? qObj.text : qId.toUpperCase().replace(/_/g, ' ');
+          const ansSymbol =
+            ans === 'achieved'
+              ? '✓ Achieved / हाँ (करता है)'
+              : ans === 'not_yet_observed'
+              ? '⏳ Not Yet Observed / अभी नहीं'
+              : '❓ Unsure / पक्का नहीं';
+          
+          return `  ${index + 1}. *${qTitle}*\n     └ Answer: ${ansSymbol}`;
+        })
+        .join('\n\n');
+
+      questionnaireText = `\n📋 *Detailed Questionnaire Asked & Answers (${Object.keys(assessment.responses).length} Questions):*\n\n${formattedQ}\n`;
+    }
+
+    // Format guidance points
+    const guidanceText =
+      assessment.guidance && assessment.guidance.length > 0
+        ? `\n💡 *Actionable Guidance:*\n${assessment.guidance.map((g) => `• ${g}`).join('\n')}\n`
+        : '';
+
+    return `🏥 *Smart Growth Tracker — Milestone Assessment & Questionnaire Report*
 
 📅 *Assessment Date:* ${assessment.assessment_date}
-👶 *Age Group:* ${assessment.age_group} months
+👶 *Age Bracket:* ${assessment.age_group} Months (Age: ${assessment.age_months}m)
 📊 *Overall Status:* ${assessment.status}
+📈 *Completion Ratio:* ${Math.round((assessment.completion_ratio || 1) * 100)}%
 
-🎯 *Developmental Domain Breakdown:*
+🎯 *Developmental Domain Scores:*
 ${domainText}
-
-${assessment.not_observed_count > 0 ? `⚠️ *Unobserved Milestones:* ${assessment.not_observed_count} items emerging` : '✅ *Milestones:* All age-appropriate milestones observed'}
-
-_Note: Shared from Smart Growth Tracker for educational decision support during doctor visits._`;
+${questionnaireText}${guidanceText}
+_Shared from Smart Growth Tracker for educational decision support during pediatrician visits._`;
   };
 
   const handleWhatsAppShare = () => {
@@ -94,11 +150,11 @@ _Note: Shared from Smart Growth Tracker for educational decision support during 
         </div>
 
         <div className="flex items-center gap-2 shrink-0 self-start sm:self-auto">
-          {/* Quick WhatsApp Share Button */}
+          {/* WhatsApp Share Button */}
           <button
             onClick={handleWhatsAppShare}
             className="px-3.5 py-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold text-xs rounded-lg transition flex items-center gap-2 cursor-pointer shadow-xs"
-            title="Share summary via WhatsApp to doctor or caregiver"
+            title="Share report with full question text, domain breakdown, and status via WhatsApp"
           >
             <Share2 className="w-3.5 h-3.5" />
             <span>Share via WhatsApp</span>
@@ -121,7 +177,7 @@ _Note: Shared from Smart Growth Tracker for educational decision support during 
           <div className="flex items-center justify-between">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-main flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-[var(--primary)]" />
-              <span>Well-Child Health Visit Summary</span>
+              <span>Well-Child Health Visit Summary & Full Questionnaire Report</span>
             </h4>
             <div className="flex items-center gap-2">
               <button
@@ -129,13 +185,13 @@ _Note: Shared from Smart Growth Tracker for educational decision support during 
                 className="text-xs font-medium text-[var(--primary)] hover:underline flex items-center gap-1 cursor-pointer"
               >
                 {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : null}
-                <span>{copied ? 'Copied to Clipboard!' : 'Copy Summary Text'}</span>
+                <span>{copied ? 'Copied to Clipboard!' : 'Copy Complete Report Text'}</span>
               </button>
               <span className="text-xs text-muted font-mono">Age: {assessment.age_group}m</span>
             </div>
           </div>
           <p className="text-xs text-muted">
-            Share this summary with your pediatrician during your child's routine wellness checkup:
+            Share this complete report with your pediatrician or family members:
           </p>
           <ul className="space-y-1 text-xs text-main list-disc list-inside p-3.5 rounded health-card font-mono leading-relaxed">
             <li><strong className="text-main">Assessment Date:</strong> {assessment.assessment_date} (Age: {assessment.age_months} months)</li>
@@ -157,8 +213,9 @@ _Note: Shared from Smart Growth Tracker for educational decision support during 
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {assessment.domain_breakdown?.map((d) => {
-            const isLow = d.score < 60;
-            const isMid = d.score >= 60 && d.score < 80;
+            const scoreVal = d.score !== undefined ? d.score : d.score_percentage;
+            const isLow = scoreVal < 60;
+            const isMid = scoreVal >= 60 && scoreVal < 80;
             const barColor = isLow
               ? 'bg-amber-600'
               : isMid
@@ -166,16 +223,16 @@ _Note: Shared from Smart Growth Tracker for educational decision support during 
               : 'bg-teal-600';
 
             return (
-              <div key={d.domain} className="p-3.5 rounded-lg health-card-subtle space-y-2">
+              <div key={d.domain || d.domain_key} className="p-3.5 rounded-lg health-card-subtle space-y-2">
                 <div className="flex items-center justify-between text-xs font-semibold text-main">
                   <span>{d.domain_name}</span>
-                  <span className="font-mono text-[var(--primary)]">{d.score}%</span>
+                  <span className="font-mono text-[var(--primary)]">{scoreVal}%</span>
                 </div>
 
                 <div className="w-full bg-slate-200 dark:bg-slate-900 h-2 rounded overflow-hidden">
                   <div
                     className={`${barColor} h-full transition-all duration-300`}
-                    style={{ width: `${d.score}%` }}
+                    style={{ width: `${scoreVal}%` }}
                   />
                 </div>
 
