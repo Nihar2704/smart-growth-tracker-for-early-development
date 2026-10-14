@@ -44,11 +44,12 @@ def calculate_who_z_scores(age_months: int, sex: int, height_cm: float, weight_k
     expected_bmi = expected_w / ((expected_h / 100.0) ** 2)
     sd_bmi = 1.3
 
-    height_z = (height_cm - expected_h) / sd_h
-    weight_z = (weight_kg - expected_w) / sd_w
-    bmi_z = (bmi - expected_bmi) / sd_bmi
+    height_z = max(-5.0, min(5.0, (height_cm - expected_h) / sd_h))
+    weight_z = max(-5.0, min(5.0, (weight_kg - expected_w) / sd_w))
+    bmi_z = max(-5.0, min(5.0, (bmi - expected_bmi) / sd_bmi))
 
     return round(float(height_z), 2), round(float(weight_z), 2), round(float(bmi_z), 2)
+
 
 
 class MLPredictionService:
@@ -111,7 +112,8 @@ class MLPredictionService:
         days = (ref_date - child_dob).days
         age_months = max(1, min(60, int(days // 30.4375)))
 
-        sex_val = 1 if str(sex_str).lower() in ["male", "m", "1"] else 0
+        sex_clean = str(sex_str).lower().strip()
+        sex_val = 1.0 if sex_clean in ["male", "m", "1"] else (0.0 if sex_clean in ["female", "f", "0"] else 0.5)
 
         # Calculate WHO Z-scores
         height_z, weight_z, bmi_z = calculate_who_z_scores(age_months, sex_val, height_cm, weight_kg, bmi)

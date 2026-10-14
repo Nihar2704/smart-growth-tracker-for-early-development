@@ -44,9 +44,18 @@ export default function MilestoneQuestionnaireModal({ isOpen, onClose, child, on
       const data = await getMilestoneQuestions(ageMonths);
       setQuestionsSet(data);
 
+      const draftKey = `smart_growth_draft_${child.id}`;
+      let savedDraft = {};
+      try {
+        const stored = localStorage.getItem(draftKey);
+        if (stored) savedDraft = JSON.parse(stored);
+      } catch (e) {
+        console.warn('Could not parse saved draft:', e);
+      }
+
       const initialAnswers = {};
       data.questions.forEach((q) => {
-        initialAnswers[q.id] = '';
+        initialAnswers[q.id] = savedDraft[q.id] || '';
       });
       setAnswers(initialAnswers);
     } catch (err) {
@@ -67,10 +76,15 @@ export default function MilestoneQuestionnaireModal({ isOpen, onClose, child, on
   const stepQuestions = questionsSet?.questions.filter((q) => q.domain === currentDomain.key) || [];
 
   const handleSelectAnswer = (qId, option) => {
-    setAnswers((prev) => ({
-      ...prev,
-      [qId]: option,
-    }));
+    setAnswers((prev) => {
+      const nextAnswers = { ...prev, [qId]: option };
+      try {
+        localStorage.setItem(`smart_growth_draft_${child.id}`, JSON.stringify(nextAnswers));
+      } catch (e) {
+        console.warn('Failed to save assessment draft to localStorage:', e);
+      }
+      return nextAnswers;
+    });
   };
 
   const handleQuickFillAll = () => {
@@ -80,7 +94,13 @@ export default function MilestoneQuestionnaireModal({ isOpen, onClose, child, on
       newAnswers[q.id] = 'achieved';
     });
     setAnswers(newAnswers);
+    try {
+      localStorage.setItem(`smart_growth_draft_${child.id}`, JSON.stringify(newAnswers));
+    } catch (e) {
+      console.warn('Failed to save quick fill draft:', e);
+    }
   };
+
 
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
@@ -105,8 +125,14 @@ export default function MilestoneQuestionnaireModal({ isOpen, onClose, child, on
       };
 
       const result = await submitMilestoneAssessment(child.id, responsePayload);
+      try {
+        localStorage.removeItem(`smart_growth_draft_${child.id}`);
+      } catch (e) {
+        console.warn('Failed to remove assessment draft:', e);
+      }
       onAssessmentSubmitted(result);
       onClose();
+
     } catch (err) {
       console.error('Failed to submit milestone assessment:', err);
       setError(err.response?.data?.detail || 'Failed to save milestone assessment.');

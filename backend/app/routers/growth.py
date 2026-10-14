@@ -50,17 +50,43 @@ def add_growth_measurement(
         raise HTTPException(status_code=404, detail="Child profile not found")
     check_child_access(child, current_user)
 
+    existing_measurements = (
+        db.query(GrowthMeasurement)
+        .filter(GrowthMeasurement.child_id == child_id)
+        .order_by(GrowthMeasurement.measurement_date.asc())
+        .all()
+    )
+
     try:
         validate_growth_measurement(
             dob=child.date_of_birth,
             measurement_date=growth_in.measurement_date,
             height_cm=growth_in.height_cm,
             weight_kg=growth_in.weight_kg,
+            previous_measurements=existing_measurements,
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
     bmi = calculate_bmi(growth_in.height_cm, growth_in.weight_kg)
+
+    # Check for same-day measurement entry: update existing record to prevent duplicate timestamps
+    same_day_entry = (
+        db.query(GrowthMeasurement)
+        .filter(
+            GrowthMeasurement.child_id == child_id,
+            GrowthMeasurement.measurement_date == growth_in.measurement_date
+        )
+        .first()
+    )
+
+    if same_day_entry:
+        same_day_entry.height_cm = growth_in.height_cm
+        same_day_entry.weight_kg = growth_in.weight_kg
+        same_day_entry.bmi = bmi
+        db.commit()
+        db.refresh(same_day_entry)
+        return _enrich_growth_response(same_day_entry, child.date_of_birth)
 
     measurement = GrowthMeasurement(
         child_id=child_id,
@@ -73,6 +99,7 @@ def add_growth_measurement(
     db.commit()
     db.refresh(measurement)
     return _enrich_growth_response(measurement, child.date_of_birth)
+
 
 
 @router.get("/api/children/{child_id}/measurements", response_model=List[GrowthResponse])

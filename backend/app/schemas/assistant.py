@@ -18,10 +18,11 @@ class ChatContext(BaseModel):
 
 
 class ChatRequest(BaseModel):
-    message: str = Field(..., min_length=1)
+    message: str = Field(..., min_length=1, max_length=1000)
     child_id: Optional[int] = None
     context: Optional[ChatContext] = None
-    history: Optional[List[ChatMessage]] = Field(default_factory=list)
+    history: Optional[List[ChatMessage]] = Field(default_factory=list, max_length=20)
+
 
 
 class ChatResponse(BaseModel):
