@@ -25,13 +25,16 @@ export default function GrowthChart({ measurements }) {
     );
   }
 
-  const chartData = measurements.map((m) => ({
-    date: m.measurement_date,
-    ageMonths: `${m.age_months_at_measurement}m`,
-    height: m.height_cm,
-    weight: m.weight_kg,
-    bmi: m.bmi,
-  }));
+  const chartData = [...measurements]
+    .sort((a, b) => new Date(a.measurement_date) - new Date(b.measurement_date))
+    .map((m) => ({
+      date: m.measurement_date,
+      ageMonths: `${m.age_months_at_measurement}m`,
+      height: m.height_cm,
+      weight: m.weight_kg,
+      bmi: m.bmi,
+    }));
+
 
   const metricConfigs = {
     height: {
@@ -134,7 +137,17 @@ export default function GrowthChart({ measurements }) {
         </div>
       </div>
 
+      {measurements.length === 1 && (
+        <div className="p-3 bg-teal-950/40 border border-teal-800/80 rounded-xl text-xs text-teal-300 flex items-center gap-2">
+          <span>💡</span>
+          <span>
+            <strong>First Growth Baseline Logged:</strong> Record additional measurements every 1–2 months to visualize your child's continuous longitudinal growth curve.
+          </span>
+        </div>
+      )}
+
       <div className="h-64 w-full pt-2">
+
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={chartData} margin={{ top: 10, right: 20, left: -15, bottom: 0 }}>
             <defs>

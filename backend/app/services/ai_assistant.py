@@ -79,6 +79,35 @@ def build_system_prompt(context: Optional[Dict[str, Any]]) -> str:
     )
 
 
+EMERGENCY_KEYWORDS = [
+    "choking", "choke", "seizure", "convulsion", "unresponsive", "unconscious",
+    "swallowed", "poison", "battery", "bleeding heavily", "blue lips", "not breathing",
+    "can't breathe", "cannot breathe", "severe burn"
+]
+
+DOMAIN_KEYWORDS = {
+    "language": ["speech", "talk", "babble", "word", "language", "voice", "bol", "baat", "awaz", "awaaz", "sunna"],
+    "gross_motor": ["walk", "crawl", "run", "stand", "jump", "motor", "chal", "khada", "daud", "pair"],
+    "fine_motor": ["hand", "finger", "grasp", "hold", "draw", "pincer", "ungli", "pakad", "haath"],
+    "social_emotional": ["smile", "cry", "laugh", "eye contact", "social", "gussa", "hasna", "rona"],
+    "cognitive": ["think", "puzzle", "learn", "explore", "play", "sochna", "dhyan"]
+}
+
+
+def check_emergency_triage(query: str) -> Optional[str]:
+    lower_q = query.lower()
+    for kw in EMERGENCY_KEYWORDS:
+        if kw in lower_q:
+            return (
+                "🚨 **CRITICAL MEDICAL EMERGENCY NOTICE**:\n\n"
+                "If your child is experiencing an acute emergency (such as difficulty breathing, choking, a seizure, loss of consciousness, or ingestion of a toxic substance/battery), **do not wait for an app response**.\n\n"
+                "• **Call emergency medical services immediately** (102 / 108 in India, 911 in the US, or your local emergency number).\n"
+                "• Proceed directly to the nearest hospital Emergency Room.\n\n"
+                "*Smart Growth Tracker provides routine educational developmental screening and is not designed for acute emergencies.*"
+            )
+    return None
+
+
 def generate_fallback_response(query: str, context: Optional[Dict[str, Any]]) -> Dict[str, Any]:
     """Generates an expert, offline CDC-aligned answer when external LLM API is unavailable."""
     lower_q = query.lower()
@@ -87,15 +116,16 @@ def generate_fallback_response(query: str, context: Optional[Dict[str, Any]]) ->
     domain = (context.get("current_domain") if context else "") or ""
     domain_key = domain.lower().replace(" ", "_").replace("&_", "")
 
-    tips = []
-    for key, items in FALLBACK_DOMAIN_TIPS.items():
-        if key in domain_key or key in lower_q:
-            tips = items
+    tips = None
+    for d_key, kws in DOMAIN_KEYWORDS.items():
+        if d_key in domain_key or any(kw in lower_q for kw in kws):
+            tips = FALLBACK_DOMAIN_TIPS.get(d_key)
             break
+
     if not tips:
         tips = FALLBACK_DOMAIN_TIPS.get("gross_motor", [])
 
-    if "question" in lower_q or "explain" in lower_q or "mean" in lower_q:
+    if "question" in lower_q or "explain" in lower_q or "mean" in lower_q or "kya" in lower_q:
         q_text = context.get("current_question") if context else "this milestone"
         reply = (
             f"**Milestone Clarification for {child_name} ({age_months}m)**:\n\n"
@@ -138,11 +168,25 @@ def generate_fallback_response(query: str, context: Optional[Dict[str, Any]]) ->
     }
 
 
+
 def call_gemini_api(message: str, context: Optional[Dict[str, Any]], history: Optional[List[Dict[str, str]]] = None) -> Dict[str, Any]:
+    emergency_notice = check_emergency_triage(message)
+    if emergency_notice:
+        return {
+            "reply": emergency_notice,
+            "suggestions": [
+                "Call local emergency number (102/108/911)",
+                "Contact our pediatrician",
+                "Nearest pediatric emergency room"
+            ],
+            "model": "emergency-triage-guardrail"
+        }
+
     api_key = os.getenv("GEMINI_API_KEY", "").strip() or GEMINI_API_KEY
     if not api_key:
         logger.warning("No GEMINI_API_KEY found. Using expert offline developmental engine.")
         return generate_fallback_response(message, context)
+
 
     system_instruction = build_system_prompt(context)
 

@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Tuple, Dict, Any, List
+from typing import Tuple, Dict, Any, List, Optional
 from sqlalchemy.orm import Session
 from app.models.growth import GrowthMeasurement
 from app.models.child import Child
@@ -43,19 +43,43 @@ def calculate_bmi(height_cm: float, weight_kg: float) -> float:
     return round(bmi, 2)
 
 
-def validate_growth_measurement(dob: date, measurement_date: date, height_cm: float, weight_kg: float) -> None:
-    """Validate measurement input constraints."""
+def validate_growth_measurement(
+    dob: date,
+    measurement_date: date,
+    height_cm: float,
+    weight_kg: float,
+    previous_measurements: Optional[List[GrowthMeasurement]] = None
+) -> None:
+    """Validate measurement input constraints, biological limits, and physical velocity."""
     if measurement_date < dob:
         raise ValueError(f"Measurement date ({measurement_date}) cannot be earlier than child's birth date ({dob}).")
     
     if measurement_date > date.today():
         raise ValueError("Measurement date cannot be in the future.")
 
-    if height_cm < 20 or height_cm > 200:
-        raise ValueError("Height must be between 20 cm and 200 cm.")
+    # Biological limits for early childhood (0 - 60 months)
+    if height_cm < 35 or height_cm > 160:
+        raise ValueError("Height must be biologically plausible for early childhood (between 35 cm and 160 cm).")
 
-    if weight_kg < 0.5 or weight_kg > 100:
-        raise ValueError("Weight must be between 0.5 kg and 100 kg.")
+    if weight_kg < 1.0 or weight_kg > 60:
+        raise ValueError("Weight must be biologically plausible for early childhood (between 1.0 kg and 60 kg).")
+
+    # Longitudinal Biological Velocity Check (Children do not shrink)
+    if previous_measurements:
+        earlier_records = [m for m in previous_measurements if m.measurement_date < measurement_date]
+        if earlier_records:
+            latest_earlier = max(earlier_records, key=lambda m: m.measurement_date)
+            if height_cm < (latest_earlier.height_cm - 2.0):
+                raise ValueError(
+                    f"Height ({height_cm} cm) is lower than previous record ({latest_earlier.height_cm} cm on {latest_earlier.measurement_date}). "
+                    f"Children do not biologically shrink. Please double-check for a typo."
+                )
+            if latest_earlier.weight_kg > 0 and ((latest_earlier.weight_kg - weight_kg) / latest_earlier.weight_kg) > 0.35:
+                raise ValueError(
+                    f"Weight ({weight_kg} kg) indicates a severe drop (>35%) from {latest_earlier.weight_kg} kg on {latest_earlier.measurement_date}. "
+                    f"Please verify this entry."
+                )
+
 
 
 def get_growth_summary(db: Session, child: Child) -> Dict[str, Any]:

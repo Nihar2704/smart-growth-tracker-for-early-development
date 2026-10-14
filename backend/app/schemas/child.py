@@ -31,6 +31,22 @@ class ChildUpdate(BaseModel):
     date_of_birth: Optional[date] = None
     sex: Optional[str] = None
 
+    @field_validator("sex")
+    def validate_sex(cls, v):
+        if v is None:
+            return v
+        v_clean = v.lower().strip()
+        if v_clean not in ["male", "female", "other"]:
+            raise ValueError("Sex must be 'male', 'female', or 'other'")
+        return v_clean
+
+    @field_validator("date_of_birth")
+    def validate_dob(cls, v):
+        if v is not None and v > date.today():
+            raise ValueError("Date of birth cannot be in the future")
+        return v
+
+
 
 class ChildResponse(ChildBase):
     id: int
