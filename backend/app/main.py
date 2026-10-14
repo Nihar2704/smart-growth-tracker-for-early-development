@@ -13,6 +13,7 @@ from app.routers import (
     growth_router,
     milestones_router,
     predictions_router,
+    assistant_router,
 )
 
 # Create database tables automatically on startup and ensure schemas are up to date
@@ -41,6 +42,8 @@ app.include_router(children_router)
 app.include_router(growth_router)
 app.include_router(milestones_router)
 app.include_router(predictions_router)
+app.include_router(assistant_router)
+
 
 
 @app.get("/")

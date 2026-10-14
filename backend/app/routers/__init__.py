@@ -3,6 +3,7 @@ from app.routers.children import router as children_router
 from app.routers.growth import router as growth_router
 from app.routers.milestones import router as milestones_router
 from app.routers.predictions import router as predictions_router
+from app.routers.assistant import router as assistant_router
 
 __all__ = [
     "auth_router",
@@ -10,4 +11,6 @@ __all__ = [
     "growth_router",
     "milestones_router",
     "predictions_router",
+    "assistant_router",
 ]
+

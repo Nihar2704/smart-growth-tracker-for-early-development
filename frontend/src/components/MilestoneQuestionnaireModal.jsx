@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getMilestoneQuestions, submitMilestoneAssessment } from '../services/api';
-import { CheckCircle2, ChevronRight, ChevronLeft, X } from 'lucide-react';
+import { CheckCircle2, ChevronRight, ChevronLeft, X, Sparkles, Bot } from 'lucide-react';
 
 const DOMAIN_STEPS = [
   { key: 'gross_motor', title: 'Gross Motor Skills', hindiTitle: 'शारीरिक विकास (गौण व स्थूल गति)', subtitle: 'Running, hopping, balancing, crawling' },
@@ -10,7 +10,8 @@ const DOMAIN_STEPS = [
   { key: 'social_emotional', title: 'Social & Emotional', hindiTitle: 'सामाजिक व भावनात्मक विकास', subtitle: 'Smiling, sharing, expressing emotions' },
 ];
 
-export default function MilestoneQuestionnaireModal({ isOpen, onClose, child, onAssessmentSubmitted }) {
+export default function MilestoneQuestionnaireModal({ isOpen, onClose, child, onAssessmentSubmitted, onOpenAssistant }) {
+
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -256,6 +257,24 @@ export default function MilestoneQuestionnaireModal({ isOpen, onClose, child, on
                           <p className="text-sm font-medium text-[var(--primary)] leading-snug">
                             {q.hindi_text}
                           </p>
+                        )}
+
+                        {/* 3. AI Clarification Button */}
+                        {onOpenAssistant && (
+                          <div className="pt-1.5 flex items-center">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                onOpenAssistant(
+                                  `Could you please explain what to look for in this milestone question: "${q.text}" for my child?`
+                                )
+                              }
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium text-teal-300 hover:text-white bg-slate-800 hover:bg-teal-900/60 rounded-md border border-teal-500/30 transition cursor-pointer"
+                            >
+                              <Sparkles className="w-3 h-3 text-amber-400" />
+                              <span>Clarify with Pediatric AI</span>
+                            </button>
+                          </div>
                         )}
                       </div>
 

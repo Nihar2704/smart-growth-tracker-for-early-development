@@ -9,6 +9,7 @@ from app.schemas.milestone import (
     DomainScore,
 )
 from app.schemas.user import UserCreate, UserLogin, UserResponse, Token, TokenData
+from app.schemas.assistant import ChatMessage, ChatContext, ChatRequest, ChatResponse
 
 __all__ = [
     "ChildCreate",
@@ -28,6 +29,10 @@ __all__ = [
     "UserResponse",
     "Token",
     "TokenData",
+    "ChatMessage",
+    "ChatContext",
+    "ChatRequest",
+    "ChatResponse",
 ]
 
 

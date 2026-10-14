@@ -120,6 +120,28 @@ export const getMLModelInfo = async () => {
   return response.data;
 };
 
+// AI Assistant & Chatbot API Service Calls
+export const askMilestoneAssistant = async ({ message, childId = null, context = null, history = [] }) => {
+  const payload = {
+    message,
+    child_id: childId,
+    context,
+    history,
+  };
+  const response = await api.post('/assistant/chat', payload);
+  return response.data;
+};
+
+export const getSuggestedPrompts = async (domain = null, ageMonths = null) => {
+  const params = new URLSearchParams();
+  if (domain) params.append('domain', domain);
+  if (ageMonths) params.append('age_months', ageMonths);
+  const queryStr = params.toString() ? `?${params.toString()}` : '';
+  const response = await api.get(`/assistant/suggested-prompts${queryStr}`);
+  return response.data;
+};
+
 export default api;
+
 
 

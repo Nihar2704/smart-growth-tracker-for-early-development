@@ -3,7 +3,8 @@ import { getMilestoneAssessments } from '../services/api';
 import MilestoneQuestionnaireModal from '../components/MilestoneQuestionnaireModal';
 import MilestoneResultCard from '../components/MilestoneResultCard';
 import MLPredictionCard from '../components/MLPredictionCard';
-import { CheckCircle2, Plus, Users, History, AlertCircle } from 'lucide-react';
+import MilestoneChatbot from '../components/MilestoneChatbot';
+import { CheckCircle2, Plus, Users, History, AlertCircle, Bot, Sparkles } from 'lucide-react';
 
 export default function MilestoneTracker({ children, selectedChild, onSelectChild }) {
   const [assessments, setAssessments] = useState([]);
@@ -11,6 +12,9 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeAssessment, setActiveAssessment] = useState(null);
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+  const [chatbotQuery, setChatbotQuery] = useState(null);
+
 
   const fetchAssessments = async () => {
     if (!selectedChild) return;
@@ -101,6 +105,18 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
               ))}
             </select>
           )}
+
+          <button
+            onClick={() => {
+              setChatbotQuery(null);
+              setIsChatbotOpen(true);
+            }}
+            className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-750 text-teal-300 hover:text-white font-medium text-xs px-3.5 py-2 rounded-lg transition border border-teal-500/30 cursor-pointer shadow-xs"
+          >
+            <Bot className="w-4 h-4 text-teal-400" />
+            <span>Ask Pediatric AI</span>
+            <Sparkles className="w-3 h-3 text-amber-400" />
+          </button>
 
           <button
             onClick={() => setIsModalOpen(true)}
@@ -235,7 +251,20 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
         onClose={() => setIsModalOpen(false)}
         child={selectedChild}
         onAssessmentSubmitted={handleAssessmentSubmitted}
+        onOpenAssistant={(query) => {
+          setChatbotQuery(query);
+          setIsChatbotOpen(true);
+        }}
+      />
+
+      <MilestoneChatbot
+        child={selectedChild}
+        activeAssessment={activeAssessment}
+        isOpen={isChatbotOpen}
+        onToggle={setIsChatbotOpen}
+        initialQuery={chatbotQuery}
       />
     </div>
   );
 }
+
