@@ -15,10 +15,10 @@ export default function GrowthChart({ measurements }) {
 
   if (!measurements || measurements.length === 0) {
     return (
-      <div className="glass-panel rounded-3xl p-8 text-center flex flex-col items-center justify-center min-h-[300px] border border-dashed border-slate-800">
-        <Activity className="w-10 h-10 text-slate-600 mb-3 animate-pulse" />
-        <h4 className="text-slate-300 font-extrabold text-sm mb-1">No Growth Curves Plotted Yet</h4>
-        <p className="text-2xs text-slate-400 max-w-xs leading-relaxed">
+      <div className="panel-card rounded-2xl p-8 text-center flex flex-col items-center justify-center min-h-[260px] border border-dashed border-[var(--border-color)]">
+        <Activity className="w-10 h-10 text-[var(--text-secondary)] mb-3 animate-pulse" />
+        <h4 className="text-[var(--text-main)] font-bold text-sm mb-1">No Growth Curves Plotted Yet</h4>
+        <p className="text-xs text-[var(--text-secondary)] max-w-xs leading-relaxed">
           Record height and weight entries to visualize longitudinal physical growth trajectories.
         </p>
       </div>
@@ -40,7 +40,7 @@ export default function GrowthChart({ measurements }) {
     height: {
       key: 'height',
       name: 'Height (cm)',
-      color: '#14b8a6',
+      color: '#2F6F5E',
       gradientId: 'heightGrad',
       unit: 'cm',
       icon: Ruler,
@@ -48,7 +48,7 @@ export default function GrowthChart({ measurements }) {
     weight: {
       key: 'weight',
       name: 'Weight (kg)',
-      color: '#06b6d4',
+      color: '#0D9488',
       gradientId: 'weightGrad',
       unit: 'kg',
       icon: Scale,
@@ -56,7 +56,7 @@ export default function GrowthChart({ measurements }) {
     bmi: {
       key: 'bmi',
       name: 'BMI (kg/m²)',
-      color: '#818cf8',
+      color: '#6366F1',
       gradientId: 'bmiGrad',
       unit: 'kg/m²',
       icon: Activity,
@@ -69,17 +69,17 @@ export default function GrowthChart({ measurements }) {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="bg-slate-950/90 border border-slate-800 p-3 rounded-2xl shadow-xl text-2xs space-y-1 backdrop-blur-md">
-          <p className="font-extrabold text-white font-mono">{data.date} ({data.ageMonths} old)</p>
-          <div className="flex items-center justify-between gap-4 text-teal-400">
+        <div className="bg-white/95 border border-[var(--border-color)] p-3 rounded-xl shadow-lg text-xs space-y-1 backdrop-blur-xs font-sans">
+          <p className="font-bold text-[var(--text-main)] font-mono">{data.date} ({data.ageMonths} old)</p>
+          <div className="flex items-center justify-between gap-4 text-teal-800">
             <span>Height:</span>
             <span className="font-mono font-bold">{data.height} cm</span>
           </div>
-          <div className="flex items-center justify-between gap-4 text-cyan-400">
+          <div className="flex items-center justify-between gap-4 text-teal-700">
             <span>Weight:</span>
             <span className="font-mono font-bold">{data.weight} kg</span>
           </div>
-          <div className="flex items-center justify-between gap-4 text-indigo-400">
+          <div className="flex items-center justify-between gap-4 text-indigo-700">
             <span>BMI:</span>
             <span className="font-mono font-bold">{data.bmi} kg/m²</span>
           </div>
@@ -90,23 +90,23 @@ export default function GrowthChart({ measurements }) {
   };
 
   return (
-    <div className="glass-panel rounded-3xl p-6 shadow-xl space-y-5">
+    <div className="panel-card rounded-2xl p-6 shadow-xs space-y-5">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h3 className="font-extrabold text-base text-white flex items-center gap-2 tracking-tight">
+          <h3 className="font-bold text-base text-[var(--text-main)] flex items-center gap-2 tracking-tight">
             <span>📈</span>
             <span>WHO Physical Growth Trajectory Curves</span>
           </h3>
-          <p className="text-2xs text-slate-400">Longitudinal growth measurements logged over time</p>
+          <p className="text-xs text-[var(--text-secondary)]">Longitudinal growth measurements logged over time</p>
         </div>
 
-        <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800/80">
+        <div className="flex items-center gap-1 bg-[var(--bg-subtle)] p-1 rounded-xl border border-[var(--border-color)]">
           <button
             onClick={() => setMetric('height')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold text-2xs transition cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-xs transition cursor-pointer ${
               metric === 'height'
-                ? 'bg-teal-500 text-slate-950 shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                ? 'btn-primary shadow-xs'
+                : 'text-[var(--text-secondary)] hover:text-[var(--text-main)]'
             }`}
           >
             <Ruler className="w-3.5 h-3.5" />
@@ -114,10 +114,10 @@ export default function GrowthChart({ measurements }) {
           </button>
           <button
             onClick={() => setMetric('weight')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold text-2xs transition cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-xs transition cursor-pointer ${
               metric === 'weight'
-                ? 'bg-cyan-500 text-slate-950 shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                ? 'btn-primary shadow-xs'
+                : 'text-[var(--text-secondary)] hover:text-[var(--text-main)]'
             }`}
           >
             <Scale className="w-3.5 h-3.5" />
@@ -125,10 +125,10 @@ export default function GrowthChart({ measurements }) {
           </button>
           <button
             onClick={() => setMetric('bmi')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold text-2xs transition cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-xs transition cursor-pointer ${
               metric === 'bmi'
-                ? 'bg-indigo-500 text-white shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                ? 'btn-primary shadow-xs'
+                : 'text-[var(--text-secondary)] hover:text-[var(--text-main)]'
             }`}
           >
             <Activity className="w-3.5 h-3.5" />
@@ -138,7 +138,7 @@ export default function GrowthChart({ measurements }) {
       </div>
 
       {measurements.length === 1 && (
-        <div className="p-3 bg-teal-950/40 border border-teal-800/80 rounded-xl text-xs text-teal-300 flex items-center gap-2">
+        <div className="p-3 bg-[var(--status-routine-bg)] border border-[var(--status-routine-border)] text-[var(--status-routine-text)] rounded-xl text-xs flex items-center gap-2">
           <span>💡</span>
           <span>
             <strong>First Growth Baseline Logged:</strong> Record additional measurements every 1–2 months to visualize your child's continuous longitudinal growth curve.
@@ -152,21 +152,21 @@ export default function GrowthChart({ measurements }) {
           <AreaChart data={chartData} margin={{ top: 10, right: 20, left: -15, bottom: 0 }}>
             <defs>
               <linearGradient id="heightGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#14b8a6" stopOpacity={0.35} />
-                <stop offset="95%" stopColor="#14b8a6" stopOpacity={0.0} />
+                <stop offset="5%" stopColor="#2F6F5E" stopOpacity={0.25} />
+                <stop offset="95%" stopColor="#2F6F5E" stopOpacity={0.0} />
               </linearGradient>
               <linearGradient id="weightGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.35} />
-                <stop offset="95%" stopColor="#06b6d4" stopOpacity={0.0} />
+                <stop offset="5%" stopColor="#0D9488" stopOpacity={0.25} />
+                <stop offset="95%" stopColor="#0D9488" stopOpacity={0.0} />
               </linearGradient>
               <linearGradient id="bmiGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#818cf8" stopOpacity={0.35} />
-                <stop offset="95%" stopColor="#818cf8" stopOpacity={0.0} />
+                <stop offset="5%" stopColor="#6366F1" stopOpacity={0.25} />
+                <stop offset="95%" stopColor="#6366F1" stopOpacity={0.0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" opacity={0.6} />
-            <XAxis dataKey="ageMonths" stroke="#64748b" fontSize={11} tickLine={false} />
-            <YAxis stroke="#64748b" fontSize={11} tickLine={false} domain={['auto', 'auto']} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#E4E6E9" opacity={0.8} />
+            <XAxis dataKey="ageMonths" stroke="#788290" fontSize={11} tickLine={false} />
+            <YAxis stroke="#788290" fontSize={11} tickLine={false} domain={['auto', 'auto']} />
             <Tooltip content={<CustomTooltip />} />
             <Area
               type="monotone"
@@ -176,7 +176,7 @@ export default function GrowthChart({ measurements }) {
               strokeWidth={2.5}
               fillOpacity={1}
               fill={`url(#${activeConfig.gradientId})`}
-              dot={{ r: 4, fill: activeConfig.color, strokeWidth: 2, stroke: '#090d16' }}
+              dot={{ r: 4, fill: activeConfig.color, strokeWidth: 2, stroke: '#ffffff' }}
               activeDot={{ r: 6, stroke: '#ffffff', strokeWidth: 2 }}
             />
           </AreaChart>

@@ -11,26 +11,26 @@ export default function Dashboard({ children, onSelectChild, onOpenAddChild, onN
     <div className="space-y-7">
       {/* Admin Specific Header Banner */}
       {isAdmin && (
-        <div className="bg-purple-900 text-purple-50 p-6 rounded-xl shadow-md border border-purple-700 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="bg-purple-50/80 text-purple-950 p-6 rounded-xl shadow-xs border border-purple-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded text-xs font-bold uppercase tracking-wider bg-purple-800 text-purple-200 border border-purple-600">
+              <span className="px-2.5 py-0.5 rounded text-xs font-bold uppercase tracking-wider bg-purple-100 text-purple-800 border border-purple-200">
                 System Admin Control Panel
               </span>
             </div>
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <ShieldAlert className="w-5 h-5 text-purple-300" />
+            <h2 className="text-xl font-bold text-purple-900 flex items-center gap-2">
+              <ShieldAlert className="w-5 h-5 text-purple-700" />
               Administrator System-Wide Scope
             </h2>
-            <p className="text-xs text-purple-200 max-w-2xl leading-relaxed">
+            <p className="text-xs text-purple-800 max-w-2xl leading-relaxed">
               You are logged in as <strong>{user?.name}</strong>. You have system-wide access to view all child profiles across all parent accounts, oversee monitoring metrics, and audit system activity.
             </p>
           </div>
 
-          <div className="bg-purple-950/60 p-3.5 rounded-lg border border-purple-800 text-right shrink-0">
-            <p className="text-xs text-purple-300 font-medium">System Total Scope</p>
-            <p className="text-2xl font-black text-white">{totalChildren} Profiles</p>
-            <p className="text-[11px] text-purple-400 mt-0.5">Across All Registered Parents</p>
+          <div className="bg-white/80 p-3.5 rounded-lg border border-purple-200 text-right shrink-0 shadow-2xs">
+            <p className="text-xs text-purple-700 font-medium">System Total Scope</p>
+            <p className="text-2xl font-black text-purple-950">{totalChildren} Profiles</p>
+            <p className="text-[11px] text-purple-600 mt-0.5">Across All Registered Parents</p>
           </div>
         </div>
       )}

@@ -5,7 +5,7 @@
    ========================================================================== */
 
 html {
-  font-size: 17.5px; /* Perfect sweet spot font scale */
+  font-size: 19.25px; /* Scaled +0.1x for parent-friendly readability and legibility */
 }
 
 /* Warm Off-White Light Theme (Exact Specs from UI_Implementation_Guidelines.md) */
@@ -87,19 +87,31 @@ html {
 }
 
 /* Shared UI Components per Guidelines */
-.panel-card {
+.panel-card, .health-card, .glass-panel {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
-  border-radius: 0.625rem;
+  border-radius: 0.75rem;
   color: var(--text-main);
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
 }
 
-.panel-card-subtle {
+.panel-card-subtle, .health-card-subtle {
   background-color: var(--bg-subtle);
   border: 1px solid var(--border-color);
-  border-radius: 0.625rem;
+  border-radius: 0.75rem;
   color: var(--text-main);
+}
+
+.text-main {
+  color: var(--text-main);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-muted {
+  color: var(--text-muted);
 }
 
 .btn-primary {
@@ -150,3 +162,30 @@ html {
   border-radius: 9999px;
   font-weight: 600;
 }
+
+/* ==========================================================================
+   Mobile Smartphone PWA & Touch Optimizations
+   ========================================================================== */
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, a, input, select {
+  touch-action: manipulation;
+}
+
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (display-mode: standalone) {
+  body {
+    overscroll-behavior-y: contain;
+  }
+}
+

@@ -76,16 +76,16 @@ _Note: Educational growth report shared from Smart Growth Tracker for doctor vis
   return (
     <div className="space-y-6">
       {/* Top Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <button
           onClick={onBack}
-          className="flex items-center gap-1.5 text-[var(--text-secondary)] hover:text-[var(--text-main)] transition font-medium text-xs cursor-pointer"
+          className="flex items-center gap-1.5 text-[var(--text-secondary)] hover:text-[var(--text-main)] transition font-medium text-xs cursor-pointer self-start"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Child Profiles</span>
         </button>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {/* Quick WhatsApp Share Button */}
           <button
             onClick={handleWhatsAppShare}
@@ -223,40 +223,82 @@ _Note: Educational growth report shared from Smart Growth Tracker for doctor vis
             No physical measurements recorded yet for {child.name}.
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="border-b border-[var(--border-color)] text-[var(--text-secondary)] font-medium uppercase tracking-wider font-mono">
-                  <th className="py-2.5 px-3">Date</th>
-                  <th className="py-2.5 px-3">Age at Record</th>
-                  <th className="py-2.5 px-3">Height (cm)</th>
-                  <th className="py-2.5 px-3">Weight (kg)</th>
-                  <th className="py-2.5 px-3">BMI (kg/m²)</th>
-                  <th className="py-2.5 px-3 text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[var(--border-color)] font-mono">
-                {summary.measurements.map((m) => (
-                  <tr key={m.id} className="hover:bg-[var(--bg-subtle)] transition">
-                    <td className="py-2.5 px-3 font-semibold text-[var(--text-main)]">{m.measurement_date}</td>
-                    <td className="py-2.5 px-3 text-[var(--text-secondary)]">{m.age_months_at_measurement}m</td>
-                    <td className="py-2.5 px-3 text-[var(--primary)] font-medium">{m.height_cm} cm</td>
-                    <td className="py-2.5 px-3 text-[var(--primary)] font-medium">{m.weight_kg} kg</td>
-                    <td className="py-2.5 px-3 font-medium">{m.bmi}</td>
-                    <td className="py-2.5 px-3 text-right">
+          <>
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-[var(--border-color)] text-[var(--text-secondary)] font-medium uppercase tracking-wider font-mono">
+                    <th className="py-2.5 px-3">Date</th>
+                    <th className="py-2.5 px-3">Age at Record</th>
+                    <th className="py-2.5 px-3">Height (cm)</th>
+                    <th className="py-2.5 px-3">Weight (kg)</th>
+                    <th className="py-2.5 px-3">BMI (kg/m²)</th>
+                    <th className="py-2.5 px-3 text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[var(--border-color)] font-mono">
+                  {summary.measurements.map((m) => (
+                    <tr key={m.id} className="hover:bg-[var(--bg-subtle)] transition">
+                      <td className="py-2.5 px-3 font-semibold text-[var(--text-main)]">{m.measurement_date}</td>
+                      <td className="py-2.5 px-3 text-[var(--text-secondary)]">{m.age_months_at_measurement}m</td>
+                      <td className="py-2.5 px-3 text-[var(--primary)] font-medium">{m.height_cm} cm</td>
+                      <td className="py-2.5 px-3 text-[var(--primary)] font-medium">{m.weight_kg} kg</td>
+                      <td className="py-2.5 px-3 font-medium">{m.bmi}</td>
+                      <td className="py-2.5 px-3 text-right">
+                        <button
+                          onClick={() => handleDeleteMeasurement(m.id)}
+                          className="p-1 rounded text-[var(--text-secondary)] hover:text-[var(--status-error-text)] hover:bg-[var(--bg-subtle)] transition cursor-pointer"
+                          title="Delete entry"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card List View */}
+            <div className="md:hidden space-y-2.5">
+              {summary.measurements.map((m) => (
+                <div
+                  key={m.id}
+                  className="p-3.5 rounded-lg border border-[var(--border-color)] bg-[var(--bg-surface)] space-y-2"
+                >
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-semibold text-[var(--text-main)] font-mono">{m.measurement_date}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-[var(--text-secondary)] font-mono">{m.age_months_at_measurement}m old</span>
                       <button
                         onClick={() => handleDeleteMeasurement(m.id)}
-                        className="p-1 rounded text-[var(--text-secondary)] hover:text-[var(--status-error-text)] hover:bg-[var(--bg-subtle)] transition cursor-pointer"
+                        className="p-1 rounded text-[var(--text-secondary)] hover:text-[var(--status-error-text)] transition cursor-pointer"
                         title="Delete entry"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2 pt-1 border-t border-[var(--border-color)] text-center font-mono">
+                    <div className="panel-card-subtle p-1.5 rounded">
+                      <div className="text-[10px] text-[var(--text-secondary)]">Height</div>
+                      <div className="font-semibold text-xs text-[var(--primary)]">{m.height_cm} cm</div>
+                    </div>
+                    <div className="panel-card-subtle p-1.5 rounded">
+                      <div className="text-[10px] text-[var(--text-secondary)]">Weight</div>
+                      <div className="font-semibold text-xs text-[var(--primary)]">{m.weight_kg} kg</div>
+                    </div>
+                    <div className="panel-card-subtle p-1.5 rounded">
+                      <div className="text-[10px] text-[var(--text-secondary)]">BMI</div>
+                      <div className="font-semibold text-xs text-[var(--text-main)]">{m.bmi}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 

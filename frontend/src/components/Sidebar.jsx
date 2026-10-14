@@ -10,7 +10,8 @@ export default function Sidebar({ currentView, setCurrentView }) {
   ];
 
   return (
-    <aside className="w-72 panel-card border-y-0 border-l-0 rounded-none flex flex-col justify-between p-5 shrink-0 min-h-[calc(100vh-4.5rem)]">
+    <aside className="hidden md:flex w-72 panel-card border-y-0 border-l-0 rounded-none flex-col justify-between p-5 shrink-0 min-h-[calc(100vh-4.5rem)]">
+
       <div className="space-y-6">
         <div className="space-y-1.5">
           <p className="px-3 text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-3">Navigation</p>

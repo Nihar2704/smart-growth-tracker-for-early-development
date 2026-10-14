@@ -178,10 +178,10 @@ I can help explain **${childName}'s** (${childAgeMonths} months) developmental m
       let parts = line.split(/(\*\*.*?\*\*)/g);
       const formattedParts = parts.map((part, pIdx) => {
         if (part.startsWith('**') && part.endsWith('**')) {
-          return <strong key={pIdx} className="font-semibold text-slate-100">{part.slice(2, -2)}</strong>;
+          return <strong key={pIdx} className="font-semibold text-slate-900">{part.slice(2, -2)}</strong>;
         }
         if (part.startsWith('*') && part.endsWith('*')) {
-          return <em key={pIdx} className="italic text-teal-300">{part.slice(1, -1)}</em>;
+          return <em key={pIdx} className="italic text-teal-800">{part.slice(1, -1)}</em>;
         }
         return part;
       });
@@ -189,18 +189,18 @@ I can help explain **${childName}'s** (${childAgeMonths} months) developmental m
       if (line.trim().startsWith('•') || line.trim().startsWith('-')) {
         return (
           <div key={idx} className="flex items-start gap-2 my-1 pl-1">
-            <span className="text-teal-400 mt-1 shrink-0">•</span>
-            <span className="text-slate-300 leading-relaxed">{formattedParts}</span>
+            <span className="text-[var(--primary)] mt-0.5 shrink-0 font-bold">•</span>
+            <span className="text-slate-700 leading-relaxed">{formattedParts}</span>
           </div>
         );
       }
 
       if (line.trim() === '') {
-        return <div key={idx} className="h-2" />;
+        return <div key={idx} className="h-1.5" />;
       }
 
       return (
-        <p key={idx} className="text-slate-200 leading-relaxed my-0.5">
+        <p key={idx} className="text-slate-800 leading-relaxed my-0.5">
           {formattedParts}
         </p>
       );
@@ -209,11 +209,11 @@ I can help explain **${childName}'s** (${childAgeMonths} months) developmental m
 
   return (
     <>
-      {/* Floating Toggle Button */}
+      {/* Floating Toggle Button (raised to bottom-20 on mobile to not block bottom nav) */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white px-4 py-3 rounded-full shadow-lg hover:shadow-teal-500/25 transition-all duration-300 cursor-pointer group border border-teal-400/30 active:scale-95"
+          className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40 flex items-center gap-2.5 btn-primary text-white px-4 py-3 rounded-full shadow-lg transition-all duration-200 cursor-pointer group active:scale-95"
           aria-label="Open Pediatric AI Assistant"
         >
           <div className="relative">
@@ -228,21 +228,21 @@ I can help explain **${childName}'s** (${childAgeMonths} months) developmental m
 
       {/* Floating Chat Modal Panel */}
       {isOpen && (
-        <div className="fixed bottom-5 right-5 z-50 w-[94vw] sm:w-[420px] max-h-[85vh] h-[600px] flex flex-col bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl shadow-black/60 overflow-hidden animate-in fade-in slide-in-from-bottom-6 duration-200 font-sans">
+        <div className="fixed bottom-20 right-3 left-3 sm:left-auto sm:bottom-6 sm:right-6 z-50 w-auto sm:w-[420px] max-h-[75vh] sm:max-h-[85vh] h-[550px] flex flex-col bg-white border border-[var(--border-color)] rounded-2xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200 font-sans">
           {/* Header */}
-          <div className="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+          <div className="bg-white px-4 py-3 border-b border-[var(--border-color)] flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white shadow-xs">
+              <div className="w-9 h-9 rounded-xl bg-[var(--primary)] flex items-center justify-center text-white shadow-xs">
                 <Bot className="w-5 h-5" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h3 className="text-xs font-bold text-slate-100 tracking-wide">GrowSense Pediatric AI</h3>
-                  <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-teal-950 text-teal-300 border border-teal-800">
+                  <h3 className="text-xs font-bold text-slate-900 tracking-wide">GrowSense Pediatric AI</h3>
+                  <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-teal-50 text-teal-800 border border-teal-200 font-medium">
                     {modelBadge}
                   </span>
                 </div>
-                <p className="text-[10px] text-slate-400">
+                <p className="text-[10px] text-slate-500">
                   CDC & WHO Milestone Screening Guidance
                 </p>
               </div>
@@ -252,14 +252,14 @@ I can help explain **${childName}'s** (${childAgeMonths} months) developmental m
               <button
                 onClick={handleResetChat}
                 title="Restart conversation"
-                className="p-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800 rounded-lg transition"
+                className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={() => setIsOpen(false)}
                 title="Minimize assistant"
-                className="p-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800 rounded-lg transition"
+                className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition cursor-pointer"
               >
                 <ChevronDown className="w-4 h-4" />
               </button>
@@ -267,10 +267,10 @@ I can help explain **${childName}'s** (${childAgeMonths} months) developmental m
           </div>
 
           {/* Child & Domain Context Bar */}
-          <div className="bg-slate-950/60 px-4 py-1.5 border-b border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+          <div className="bg-slate-50 px-4 py-2 border-b border-[var(--border-color)] flex items-center justify-between text-[11px] text-slate-600">
             <div className="flex items-center gap-1.5 truncate">
               <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-              <span className="font-medium text-slate-300 truncate">
+              <span className="font-semibold text-slate-800 truncate">
                 {child?.name || 'General Profile'} ({childAgeMonths}m)
               </span>
               {activeDomain && (
@@ -283,7 +283,7 @@ I can help explain **${childName}'s** (${childAgeMonths} months) developmental m
           </div>
 
           {/* Messages Container */}
-          <div className="flex-1 p-4 overflow-y-auto space-y-3.5 text-xs bg-slate-900/90">
+          <div className="flex-1 p-4 overflow-y-auto space-y-3.5 text-xs bg-[#FAFAF8]">
             {messages.map((m, index) => {
               const isUser = m.role === 'user';
               return (
@@ -292,7 +292,7 @@ I can help explain **${childName}'s** (${childAgeMonths} months) developmental m
                   className={`flex gap-2.5 ${isUser ? 'justify-end' : 'justify-start'}`}
                 >
                   {!isUser && (
-                    <div className="w-6 h-6 rounded-lg bg-teal-950 border border-teal-800 flex items-center justify-center text-teal-400 shrink-0 mt-0.5">
+                    <div className="w-6 h-6 rounded-lg bg-teal-50 border border-teal-200 flex items-center justify-center text-[var(--primary)] shrink-0 mt-0.5">
                       <Bot className="w-3.5 h-3.5" />
                     </div>
                   )}
@@ -300,8 +300,8 @@ I can help explain **${childName}'s** (${childAgeMonths} months) developmental m
                   <div
                     className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs shadow-xs ${
                       isUser
-                        ? 'bg-gradient-to-r from-teal-700 to-emerald-700 text-white rounded-br-xs font-medium'
-                        : 'bg-slate-800/90 text-slate-200 border border-slate-700/70 rounded-bl-xs'
+                        ? 'bg-[var(--primary)] text-white rounded-br-xs font-medium'
+                        : 'bg-white text-slate-800 border border-[var(--border-color)] rounded-bl-xs'
                     }`}
                   >
                     {isUser ? (
@@ -311,7 +311,7 @@ I can help explain **${childName}'s** (${childAgeMonths} months) developmental m
                     )}
                     <div
                       className={`text-[9px] mt-1 font-mono flex items-center ${
-                        isUser ? 'text-teal-200 justify-end' : 'text-slate-500 justify-start'
+                        isUser ? 'text-teal-100 justify-end' : 'text-slate-400 justify-start'
                       }`}
                     >
                       {m.timestamp}
@@ -319,7 +319,7 @@ I can help explain **${childName}'s** (${childAgeMonths} months) developmental m
                   </div>
 
                   {isUser && (
-                    <div className="w-6 h-6 rounded-lg bg-emerald-950 border border-emerald-800 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5">
+                    <div className="w-6 h-6 rounded-lg bg-teal-100 border border-teal-200 flex items-center justify-center text-[var(--primary)] shrink-0 mt-0.5">
                       <User className="w-3.5 h-3.5" />
                     </div>
                   )}
@@ -328,15 +328,15 @@ I can help explain **${childName}'s** (${childAgeMonths} months) developmental m
             })}
 
             {loading && (
-              <div className="flex gap-2.5 justify-start items-center text-slate-400">
-                <div className="w-6 h-6 rounded-lg bg-teal-950 border border-teal-800 flex items-center justify-center text-teal-400 shrink-0">
+              <div className="flex gap-2.5 justify-start items-center text-slate-500">
+                <div className="w-6 h-6 rounded-lg bg-teal-50 border border-teal-200 flex items-center justify-center text-[var(--primary)] shrink-0">
                   <Bot className="w-3.5 h-3.5" />
                 </div>
-                <div className="bg-slate-800/80 border border-slate-700/60 rounded-2xl px-3.5 py-2 text-xs flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 bg-teal-400 rounded-full animate-bounce"></span>
-                  <span className="w-1.5 h-1.5 bg-teal-400 rounded-full animate-bounce [animation-delay:0.2s]"></span>
-                  <span className="w-1.5 h-1.5 bg-teal-400 rounded-full animate-bounce [animation-delay:0.4s]"></span>
-                  <span className="text-[11px] text-slate-400 ml-1">Analyzing CDC guidelines...</span>
+                <div className="bg-white border border-[var(--border-color)] rounded-2xl px-3.5 py-2 text-xs flex items-center gap-1.5 shadow-xs">
+                  <span className="w-1.5 h-1.5 bg-[var(--primary)] rounded-full animate-bounce"></span>
+                  <span className="w-1.5 h-1.5 bg-[var(--primary)] rounded-full animate-bounce [animation-delay:0.2s]"></span>
+                  <span className="w-1.5 h-1.5 bg-[var(--primary)] rounded-full animate-bounce [animation-delay:0.4s]"></span>
+                  <span className="text-[11px] text-slate-500 ml-1">Analyzing CDC guidelines...</span>
                 </div>
               </div>
             )}
@@ -346,14 +346,14 @@ I can help explain **${childName}'s** (${childAgeMonths} months) developmental m
 
           {/* Suggested Quick Question Chips */}
           {suggestedChips.length > 0 && !loading && (
-            <div className="px-3 py-2 bg-slate-950/70 border-t border-slate-800/80 overflow-x-auto whitespace-nowrap scrollbar-none flex gap-1.5">
+            <div className="px-3 py-2 bg-slate-50 border-t border-[var(--border-color)] overflow-x-auto whitespace-nowrap scrollbar-none flex gap-1.5">
               {suggestedChips.map((chip, idx) => (
                 <button
                   key={idx}
                   onClick={() => handleSendMessage(chip)}
-                  className="px-2.5 py-1 bg-slate-800/80 hover:bg-teal-900/60 text-slate-300 hover:text-teal-200 text-[11px] rounded-full border border-slate-700/80 hover:border-teal-600 transition shrink-0 cursor-pointer flex items-center gap-1"
+                  className="px-2.5 py-1 bg-white hover:bg-teal-50 text-slate-700 hover:text-teal-900 text-[11px] rounded-full border border-[var(--border-color)] hover:border-teal-300 transition shrink-0 cursor-pointer flex items-center gap-1 shadow-xs"
                 >
-                  <Sparkles className="w-2.5 h-2.5 text-amber-400" />
+                  <Sparkles className="w-2.5 h-2.5 text-amber-500" />
                   <span className="truncate max-w-[200px]">{chip}</span>
                 </button>
               ))}
@@ -366,7 +366,7 @@ I can help explain **${childName}'s** (${childAgeMonths} months) developmental m
               e.preventDefault();
               handleSendMessage();
             }}
-            className="p-3 bg-slate-900 border-t border-slate-800 flex items-center gap-2"
+            className="p-3 bg-white border-t border-[var(--border-color)] flex items-center gap-2"
           >
             <input
               type="text"
@@ -374,12 +374,12 @@ I can help explain **${childName}'s** (${childAgeMonths} months) developmental m
               onChange={(e) => setInputMessage(e.target.value)}
               placeholder={`Ask about ${child?.name || 'milestones'}, scores, activities...`}
               disabled={loading}
-              className="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-teal-500 disabled:opacity-50"
+              className="flex-1 bg-slate-50 border border-[var(--border-color)] rounded-xl px-3.5 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[var(--primary)] disabled:opacity-50"
             />
             <button
               type="submit"
               disabled={!inputMessage.trim() || loading}
-              className="p-2 bg-teal-700 hover:bg-teal-600 disabled:bg-slate-800 text-white rounded-xl transition cursor-pointer disabled:cursor-not-allowed border border-teal-600/60 disabled:border-slate-700 shadow-xs"
+              className="p-2 btn-primary rounded-xl transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shadow-xs"
               aria-label="Send message"
             >
               <Send className="w-4 h-4" />
@@ -387,9 +387,9 @@ I can help explain **${childName}'s** (${childAgeMonths} months) developmental m
           </form>
 
           {/* Medical Disclaimer Banner */}
-          <div className="px-3 py-1 bg-slate-950 border-t border-slate-900 text-center">
-            <p className="text-[9px] text-slate-500 flex items-center justify-center gap-1 font-mono">
-              <ShieldCheck className="w-3 h-3 text-slate-400" />
+          <div className="px-3 py-1.5 bg-slate-50 border-t border-[var(--border-color)] text-center">
+            <p className="text-[10px] text-slate-500 flex items-center justify-center gap-1 font-mono">
+              <ShieldCheck className="w-3.5 h-3.5 text-[var(--primary)]" />
               <span>Educational guidance only. Not a medical diagnosis.</span>
             </p>
           </div>

@@ -42,102 +42,102 @@ export default function AddChildModal({ isOpen, onClose, onSave, childToEdit = n
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
-      <div className="glass-panel w-full max-w-md rounded-2xl p-6 shadow-2xl relative border border-slate-700/60 animate-in fade-in zoom-in duration-200">
-        <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-          <h2 className="font-bold text-xl text-white">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
+      <div className="panel-card w-full max-w-md rounded-2xl p-6 shadow-2xl relative border border-[var(--border-color)] animate-in fade-in zoom-in-95 duration-200">
+        <div className="flex items-center justify-between pb-4 border-b border-[var(--border-color)]">
+          <h2 className="font-bold text-lg text-[var(--text-main)]">
             {childToEdit ? 'Edit Child Profile' : 'Add New Child Profile'}
           </h2>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
+            className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-main)] hover:bg-[var(--bg-subtle)] transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {error && (
-          <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl text-rose-400 text-sm">
+          <div className="mt-4 p-3 border border-[var(--status-error-border)] bg-[var(--status-error-bg)] rounded-lg text-[var(--status-error-text)] text-xs font-medium">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
+            <label className="block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-1">
               Full Name *
             </label>
             <div className="relative">
-              <User className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+              <User className="absolute left-3 top-3 w-4 h-4 text-[var(--text-muted)]" />
               <input
                 type="text"
                 placeholder="e.g. Aarav Sharma"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                className="w-full bg-[var(--bg-surface)] border border-[var(--border-color)] rounded-lg py-2.5 pl-10 pr-4 text-xs text-[var(--text-main)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] font-medium"
                 required
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
+            <label className="block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-1">
               Date of Birth *
             </label>
             <div className="relative">
-              <Calendar className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+              <Calendar className="absolute left-3 top-3 w-4 h-4 text-[var(--text-muted)]" />
               <input
                 type="date"
                 max={new Date().toISOString().split('T')[0]}
                 value={dob}
                 onChange={(e) => setDob(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                className="w-full bg-[var(--bg-surface)] border border-[var(--border-color)] rounded-lg py-2.5 pl-10 pr-4 text-xs text-[var(--text-main)] focus:outline-none focus:border-[var(--primary)] font-mono"
                 required
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
+            <label className="block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-1">
               Biological Sex *
             </label>
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
                 onClick={() => setSex('male')}
-                className={`py-2.5 px-4 rounded-xl font-medium text-sm border transition cursor-pointer ${
+                className={`py-2.5 px-4 rounded-lg font-semibold text-xs border transition cursor-pointer ${
                   sex === 'male'
-                    ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50'
-                    : 'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700'
+                    ? 'bg-sky-50 text-sky-800 border-sky-300 ring-1 ring-sky-400'
+                    : 'panel-card-subtle text-[var(--text-secondary)] hover:bg-[var(--bg-subtle)]'
                 }`}
               >
-                Male
+                Male (Boy)
               </button>
               <button
                 type="button"
                 onClick={() => setSex('female')}
-                className={`py-2.5 px-4 rounded-xl font-medium text-sm border transition cursor-pointer ${
+                className={`py-2.5 px-4 rounded-lg font-semibold text-xs border transition cursor-pointer ${
                   sex === 'female'
-                    ? 'bg-pink-500/20 text-pink-300 border-pink-500/50'
-                    : 'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700'
+                    ? 'bg-pink-50 text-pink-800 border-pink-300 ring-1 ring-pink-400'
+                    : 'panel-card-subtle text-[var(--text-secondary)] hover:bg-[var(--bg-subtle)]'
                 }`}
               >
-                Female
+                Female (Girl)
               </button>
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-[var(--border-color)]">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-slate-400 hover:text-slate-200 text-sm font-semibold transition cursor-pointer"
+              className="px-4 py-2 btn-secondary text-xs font-medium cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-400 hover:to-cyan-400 text-slate-950 font-bold text-sm rounded-xl transition shadow-lg shadow-teal-500/20 cursor-pointer"
+              className="px-5 py-2 btn-primary text-xs font-semibold shadow-xs cursor-pointer"
             >
               {childToEdit ? 'Save Changes' : 'Create Profile'}
             </button>

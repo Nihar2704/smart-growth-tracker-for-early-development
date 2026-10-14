@@ -16,20 +16,19 @@ export default function Navbar({ onOpenAddChild, theme, onToggleTheme }) {
   const isAdmin = user?.role === 'admin';
 
   return (
-    <header className="h-18 panel-card border-x-0 border-t-0 rounded-none px-6 flex items-center justify-between sticky top-0 z-30 shadow-xs">
+    <header className="h-16 sm:h-18 panel-card border-x-0 border-t-0 rounded-none px-3.5 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-xs">
       {/* Brand Header */}
-      <Link to="/" className="flex items-center gap-3 group">
-        <div className="w-10 h-10 rounded-lg bg-[var(--primary)] text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-          <Activity className="h-6 w-6 stroke-[2.5]" />
+      <Link to="/" className="flex items-center gap-2.5 sm:gap-3 group">
+        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[var(--primary)] text-white flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+          <Activity className="h-5 w-5 sm:h-6 sm:w-6 stroke-[2.5]" />
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="font-bold text-lg tracking-tight leading-none text-[var(--text-main)]">
+            <h1 className="font-bold text-base sm:text-lg tracking-tight leading-none text-[var(--text-main)]">
               GrowSense AI
             </h1>
-            
           </div>
-          <p className="text-sm text-[var(--text-secondary)] font-normal mt-1">
+          <p className="hidden sm:block text-xs sm:text-sm text-[var(--text-secondary)] font-normal mt-1">
             Early Childhood Development & Growth Monitoring
           </p>
         </div>

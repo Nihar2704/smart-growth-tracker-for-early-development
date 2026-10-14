@@ -47,11 +47,11 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
 
   if (!selectedChild) {
     return (
-      <div className="health-card p-8 text-center space-y-4 max-w-md mx-auto my-12">
-        <Users className="w-10 h-10 text-slate-500 mx-auto" />
+      <div className="panel-card p-8 text-center space-y-4 max-w-md mx-auto my-12">
+        <Users className="w-10 h-10 text-[var(--text-secondary)] mx-auto" />
         <div className="space-y-1">
-          <h3 className="text-base font-semibold text-slate-100">Select a Child Profile</h3>
-          <p className="text-xs text-slate-400">
+          <h3 className="text-base font-semibold text-[var(--text-main)]">Select a Child Profile</h3>
+          <p className="text-xs text-[var(--text-secondary)]">
             Select a child profile to conduct CDC developmental milestone assessments and generate AI monitoring predictions.
           </p>
         </div>
@@ -61,7 +61,7 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
               <button
                 key={c.id}
                 onClick={() => onSelectChild(c.id)}
-                className="px-3 py-1.5 bg-slate-800 hover:bg-teal-700 hover:text-white text-slate-300 font-medium text-xs rounded-lg transition border border-slate-700 cursor-pointer"
+                className="px-3.5 py-1.5 btn-secondary text-xs rounded-lg transition cursor-pointer"
               >
                 {c.name} ({c.sex})
               </button>
@@ -78,25 +78,25 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded text-[10px] font-medium uppercase tracking-wider bg-slate-800 text-slate-300 border border-slate-700">
+            <span className="px-2.5 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wider panel-card-subtle text-[var(--primary)]">
               Milestone Assessment Module
             </span>
-            <span className="text-xs text-slate-400 font-mono">Active Child: {selectedChild.name}</span>
+            <span className="text-xs text-[var(--text-secondary)] font-mono">Active Child: {selectedChild.name}</span>
           </div>
-          <h1 className="text-xl font-semibold text-slate-100 mt-1">
+          <h1 className="text-xl font-bold text-[var(--text-main)] mt-1">
             CDC Developmental Milestone Checkups
           </h1>
-          <p className="text-xs text-slate-400 font-normal">
+          <p className="text-xs text-[var(--text-secondary)] font-normal">
             Evaluate physical movement, fine motor skills, speech, cognitive reasoning, and social development.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2.5">
           {children && children.length > 1 && (
             <select
               value={selectedChild.id}
               onChange={(e) => onSelectChild(Number(e.target.value))}
-              className="bg-slate-900 border border-slate-700 text-slate-200 text-xs font-medium rounded-lg px-3 py-2 focus:outline-none focus:border-teal-500"
+              className="bg-[var(--bg-surface)] border border-[var(--border-color)] text-[var(--text-main)] text-xs font-medium rounded-lg px-3 py-2 focus:outline-none focus:border-[var(--primary)]"
             >
               {children.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -111,16 +111,16 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
               setChatbotQuery(null);
               setIsChatbotOpen(true);
             }}
-            className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-750 text-teal-300 hover:text-white font-medium text-xs px-3.5 py-2 rounded-lg transition border border-teal-500/30 cursor-pointer shadow-xs"
+            className="flex items-center gap-1.5 btn-secondary text-xs px-3.5 py-2 cursor-pointer shadow-xs"
           >
-            <Bot className="w-4 h-4 text-teal-400" />
+            <Bot className="w-4 h-4 text-[var(--primary)]" />
             <span>Ask Pediatric AI</span>
-            <Sparkles className="w-3 h-3 text-amber-400" />
+            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
           </button>
 
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 bg-teal-700 hover:bg-teal-600 text-white font-medium text-xs px-4 py-2 rounded-lg transition border border-teal-600 shadow-xs cursor-pointer"
+            className="flex items-center gap-2 btn-primary text-xs px-4 py-2 cursor-pointer shadow-xs"
           >
             <Plus className="w-4 h-4" />
             <span>Start Milestone Assessment</span>
@@ -129,8 +129,8 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
       </div>
 
       {error && (
-        <div className="p-3 bg-rose-950/40 border border-rose-800 rounded-lg text-rose-300 text-xs flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+        <div className="p-3 border border-[var(--status-error-border)] bg-[var(--status-error-bg)] rounded-lg text-[var(--status-error-text)] text-xs flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{error}</span>
         </div>
       )}
@@ -138,21 +138,21 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
       {/* Main Content */}
       {loading ? (
         <div className="py-12 text-center space-y-2">
-          <div className="w-6 h-6 border-2 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-xs text-slate-400">Loading milestone records for {selectedChild.name}...</p>
+          <div className="w-6 h-6 border-2 border-[var(--primary)] border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-xs text-[var(--text-secondary)]">Loading milestone records for {selectedChild.name}...</p>
         </div>
       ) : assessments.length === 0 ? (
-        <div className="health-card p-10 text-center space-y-3">
-          <CheckCircle2 className="w-10 h-10 text-slate-500 mx-auto" />
+        <div className="panel-card p-10 text-center space-y-3">
+          <CheckCircle2 className="w-10 h-10 text-[var(--text-secondary)] mx-auto" />
           <div className="space-y-1">
-            <h3 className="text-sm font-semibold text-slate-200">No Milestone Assessments Recorded</h3>
-            <p className="text-xs text-slate-400 max-w-sm mx-auto">
+            <h3 className="text-sm font-semibold text-[var(--text-main)]">No Milestone Assessments Recorded</h3>
+            <p className="text-xs text-[var(--text-secondary)] max-w-sm mx-auto">
               Complete a 5-domain milestone assessment to evaluate {selectedChild.name}'s developmental progress.
             </p>
           </div>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-2 bg-teal-700 hover:bg-teal-600 text-white font-medium text-xs px-4 py-2 rounded-lg transition border border-teal-600 cursor-pointer"
+            className="inline-flex items-center gap-2 btn-primary text-xs px-4 py-2 cursor-pointer shadow-xs"
           >
             <Plus className="w-4 h-4" />
             <span>Start First Milestone Assessment</span>
@@ -164,10 +164,10 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
           {activeAssessment && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                <h2 className="text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)]">
                   Latest Milestone Summary
                 </h2>
-                <span className="text-xs text-slate-400 font-mono">
+                <span className="text-xs text-[var(--text-secondary)] font-mono">
                   Total Completed: {assessments.length}
                 </span>
               </div>
@@ -176,17 +176,23 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
             </div>
           )}
 
-          {/* Past Assessment History Table */}
-          <div className="health-card p-5 space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
-              <History className="w-4 h-4 text-slate-400" />
-              <span>Milestone Assessment History</span>
-            </h3>
+          {/* Past Assessment History */}
+          <div className="panel-card p-5 space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)] flex items-center gap-2">
+                <History className="w-4 h-4 text-[var(--text-secondary)]" />
+                <span>Milestone Assessment History</span>
+              </h3>
+              <span className="text-xs font-mono text-[var(--text-secondary)]">
+                {assessments.length} {assessments.length === 1 ? 'Record' : 'Records'}
+              </span>
+            </div>
 
-            <div className="overflow-x-auto">
+            {/* Desktop Table View (Hidden on mobile) */}
+            <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="border-b border-slate-800 text-slate-400 font-mono uppercase tracking-wider">
+                  <tr className="border-b border-[var(--border-color)] text-[var(--text-secondary)] font-mono uppercase tracking-wider">
                     <th className="py-2.5 px-3">Date</th>
                     <th className="py-2.5 px-3">Age Group</th>
                     <th className="py-2.5 px-3">Physical</th>
@@ -198,19 +204,20 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
                     <th className="py-2.5 px-3 text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/80 font-mono">
+                <tbody className="divide-y divide-[var(--border-color)] font-mono">
                   {assessments.map((a) => {
                     const isSelected = activeAssessment?.id === a.id;
+                    const isRoutine = a.status.includes('Routine') || a.status === 'On Track';
                     return (
                       <tr
                         key={a.id}
-                        className={`hover:bg-slate-900/60 transition cursor-pointer ${
-                          isSelected ? 'bg-slate-900 font-semibold' : ''
+                        className={`hover:bg-[var(--bg-subtle)] transition cursor-pointer ${
+                          isSelected ? 'bg-[var(--bg-subtle)] font-semibold' : ''
                         }`}
                         onClick={() => setActiveAssessment(a)}
                       >
-                        <td className="py-2.5 px-3 font-semibold text-slate-200">{a.assessment_date}</td>
-                        <td className="py-2.5 px-3 text-teal-400 font-semibold">{a.age_group}m</td>
+                        <td className="py-2.5 px-3 font-semibold text-[var(--text-main)]">{a.assessment_date}</td>
+                        <td className="py-2.5 px-3 text-[var(--primary)] font-semibold">{a.age_group}m</td>
                         <td className="py-2.5 px-3">{a.gross_motor_score}%</td>
                         <td className="py-2.5 px-3">{a.fine_motor_score}%</td>
                         <td className="py-2.5 px-3">{a.language_score}%</td>
@@ -218,9 +225,7 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
                         <td className="py-2.5 px-3">{a.social_emotional_score}%</td>
                         <td className="py-2.5 px-3">
                           <span className={`px-2 py-0.5 rounded text-[10px] font-medium border ${
-                            a.status === 'Additional Monitoring Recommended'
-                              ? 'bg-amber-950/60 text-amber-300 border-amber-800'
-                              : 'bg-emerald-950/60 text-emerald-300 border-emerald-800'
+                            isRoutine ? 'badge-routine' : 'badge-caution'
                           }`}>
                             {a.status}
                           </span>
@@ -231,9 +236,11 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
                               e.stopPropagation();
                               setActiveAssessment(a);
                             }}
-                            className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-medium rounded border border-slate-700 transition cursor-pointer"
+                            className={`px-2.5 py-1 text-[11px] font-medium rounded transition cursor-pointer ${
+                              isSelected ? 'btn-primary' : 'btn-secondary'
+                            }`}
                           >
-                            Select
+                            {isSelected ? 'Active' : 'Select'}
                           </button>
                         </td>
                       </tr>
@@ -241,6 +248,65 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
                   })}
                 </tbody>
               </table>
+            </div>
+
+            {/* Mobile Stacked Card View (Clean, touch-friendly, never cracks or overflows) */}
+            <div className="md:hidden space-y-3">
+              {assessments.map((a) => {
+                const isSelected = activeAssessment?.id === a.id;
+                const isRoutine = a.status.includes('Routine') || a.status === 'On Track';
+                return (
+                  <div
+                    key={a.id}
+                    onClick={() => setActiveAssessment(a)}
+                    className={`p-3.5 rounded-lg border transition cursor-pointer space-y-2.5 ${
+                      isSelected
+                        ? 'border-[var(--primary)] bg-[var(--status-routine-bg)]/40 ring-1 ring-[var(--primary)]'
+                        : 'border-[var(--border-color)] bg-[var(--bg-surface)] hover:bg-[var(--bg-subtle)]'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-semibold text-[var(--text-main)] font-mono">{a.assessment_date}</span>
+                      <span className="text-[var(--primary)] font-bold text-xs">{a.age_group} Months</span>
+                    </div>
+
+                    <div className="flex items-center justify-between gap-2">
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${
+                        isRoutine ? 'badge-routine' : 'badge-caution'
+                      }`}>
+                        {a.status}
+                      </span>
+                      <span className="text-[11px] font-semibold text-[var(--primary)]">
+                        {isSelected ? '✓ Viewing' : 'Tap to View'}
+                      </span>
+                    </div>
+
+                    {/* Compact 5-Domain Grid */}
+                    <div className="grid grid-cols-5 gap-1 pt-1.5 border-t border-[var(--border-color)] text-center font-mono text-[10px]">
+                      <div className="panel-card-subtle p-1 rounded">
+                        <div className="text-[var(--text-secondary)] text-[9px]">Phys</div>
+                        <div className="font-semibold text-[var(--text-main)]">{a.gross_motor_score}%</div>
+                      </div>
+                      <div className="panel-card-subtle p-1 rounded">
+                        <div className="text-[var(--text-secondary)] text-[9px]">Fine</div>
+                        <div className="font-semibold text-[var(--text-main)]">{a.fine_motor_score}%</div>
+                      </div>
+                      <div className="panel-card-subtle p-1 rounded">
+                        <div className="text-[var(--text-secondary)] text-[9px]">Speech</div>
+                        <div className="font-semibold text-[var(--text-main)]">{a.language_score}%</div>
+                      </div>
+                      <div className="panel-card-subtle p-1 rounded">
+                        <div className="text-[var(--text-secondary)] text-[9px]">Cogn</div>
+                        <div className="font-semibold text-[var(--text-main)]">{a.cognitive_score}%</div>
+                      </div>
+                      <div className="panel-card-subtle p-1 rounded">
+                        <div className="text-[var(--text-secondary)] text-[9px]">Soc</div>
+                        <div className="font-semibold text-[var(--text-main)]">{a.social_emotional_score}%</div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

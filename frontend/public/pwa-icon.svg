@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="128" fill="#0f172a"/>
+  <circle cx="256" cy="256" r="210" fill="url(#bgGrad)" stroke="#14b8a6" stroke-width="8" stroke-dasharray="16 12"/>
+  
+  <!-- Growth Sprout & Heartbeat Line -->
+  <path d="M120 280 H180 L210 200 L256 340 L300 240 L330 280 H392" stroke="#2dd4bf" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Sprout Leaves -->
+  <path d="M256 200 C256 140 210 110 170 120 C170 160 200 200 256 200 Z" fill="#10b981" opacity="0.9"/>
+  <path d="M256 180 C260 120 310 90 350 110 C350 150 310 180 256 180 Z" fill="#34d399" opacity="0.95"/>
+  
+  <!-- Pulse Dot -->
+  <circle cx="392" cy="280" r="16" fill="#f59e0b"/>
+  
+  <defs>
+    <radialGradient id="bgGrad" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(256 256) rotate(90) scale(210)">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </radialGradient>
+  </defs>
+</svg>

@@ -9,8 +9,11 @@ import MilestoneTracker from './pages/MilestoneTracker';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AddChildModal from './components/AddChildModal';
+import PWAInstallPrompt from './components/PWAInstallPrompt';
+import MobileBottomNav from './components/MobileBottomNav';
 import { useAuth } from './context/AuthContext';
 import { getChildren, createChild, updateChild, deleteChild } from './services/api';
+
 
 export default function App() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -166,7 +169,9 @@ export default function App() {
                   selectedChildId={selectedChildId}
                 />
 
-                <main className="flex-1 p-6 md:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
+                <main className="flex-1 p-4 sm:p-6 md:p-8 pb-24 md:pb-8 overflow-y-auto max-w-7xl mx-auto w-full">
+                  <PWAInstallPrompt />
+
                   {error && (
                     <div className="mb-6 p-4 border border-[var(--status-error-border)] bg-[var(--status-error-bg)] rounded-lg text-[var(--status-error-text)] text-xs flex items-center justify-between">
                       <span>{error}</span>
@@ -226,6 +231,16 @@ export default function App() {
                     />
                   )}
                 </main>
+
+                <MobileBottomNav
+                  currentView={currentView}
+                  setCurrentView={(view) => {
+                    if ((view === 'growth' || view === 'milestones') && !selectedChildId && children.length > 0) {
+                      handleSelectChildForMilestones(children[0].id);
+                    }
+                    setCurrentView(view);
+                  }}
+                />
               </div>
             ) : (
               <Navigate to="/login" replace />

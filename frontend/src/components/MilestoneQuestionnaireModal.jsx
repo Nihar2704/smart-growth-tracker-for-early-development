@@ -142,7 +142,7 @@ export default function MilestoneQuestionnaireModal({ isOpen, onClose, child, on
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs overflow-y-auto">
       <div className="panel-card border border-[var(--border-color)] rounded-xl w-full max-w-3xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="p-5 border-b border-[var(--border-color)] panel-card sticky top-0 z-10 space-y-4">
@@ -295,9 +295,9 @@ export default function MilestoneQuestionnaireModal({ isOpen, onClose, child, on
                                   `Could you please explain what to look for in this milestone question: "${q.text}" for my child?`
                                 )
                               }
-                              className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium text-teal-300 hover:text-white bg-slate-800 hover:bg-teal-900/60 rounded-md border border-teal-500/30 transition cursor-pointer"
+                              className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold text-teal-800 bg-teal-50 hover:bg-teal-100 rounded-lg border border-teal-200 transition cursor-pointer shadow-xs"
                             >
-                              <Sparkles className="w-3 h-3 text-amber-400" />
+                              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                               <span>Clarify with Pediatric AI</span>
                             </button>
                           </div>
