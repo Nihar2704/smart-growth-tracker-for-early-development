@@ -90,23 +90,23 @@ export default function GrowthChart({ measurements }) {
   };
 
   return (
-    <div className="panel-card rounded-2xl p-6 shadow-xs space-y-5">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div className="bg-white border border-[var(--border-color)] rounded-2xl p-4 sm:p-5.5 shadow-2xs space-y-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
-          <h3 className="font-bold text-base text-[var(--text-main)] flex items-center gap-2 tracking-tight">
+          <h3 className="font-bold text-sm sm:text-base text-[var(--text-main)] flex items-center gap-2 tracking-tight">
             <span>📈</span>
             <span>WHO Physical Growth Trajectory Curves</span>
           </h3>
-          <p className="text-xs text-[var(--text-secondary)]">Longitudinal growth measurements logged over time</p>
+          <p className="text-xs text-slate-500">Longitudinal growth measurements logged over time</p>
         </div>
 
-        <div className="flex items-center gap-1 bg-[var(--bg-subtle)] p-1 rounded-xl border border-[var(--border-color)]">
+        <div className="flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200 self-stretch sm:self-auto justify-around">
           <button
             onClick={() => setMetric('height')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-xs transition cursor-pointer ${
+            className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg font-bold text-xs transition cursor-pointer flex-1 sm:flex-initial ${
               metric === 'height'
-                ? 'btn-primary shadow-xs'
-                : 'text-[var(--text-secondary)] hover:text-[var(--text-main)]'
+                ? 'bg-white text-[var(--primary)] shadow-xs border border-slate-200/60'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Ruler className="w-3.5 h-3.5" />
@@ -114,10 +114,10 @@ export default function GrowthChart({ measurements }) {
           </button>
           <button
             onClick={() => setMetric('weight')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-xs transition cursor-pointer ${
+            className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg font-bold text-xs transition cursor-pointer flex-1 sm:flex-initial ${
               metric === 'weight'
-                ? 'btn-primary shadow-xs'
-                : 'text-[var(--text-secondary)] hover:text-[var(--text-main)]'
+                ? 'bg-white text-[var(--primary)] shadow-xs border border-slate-200/60'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Scale className="w-3.5 h-3.5" />
@@ -125,10 +125,10 @@ export default function GrowthChart({ measurements }) {
           </button>
           <button
             onClick={() => setMetric('bmi')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-xs transition cursor-pointer ${
+            className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg font-bold text-xs transition cursor-pointer flex-1 sm:flex-initial ${
               metric === 'bmi'
-                ? 'btn-primary shadow-xs'
-                : 'text-[var(--text-secondary)] hover:text-[var(--text-main)]'
+                ? 'bg-white text-[var(--primary)] shadow-xs border border-slate-200/60'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Activity className="w-3.5 h-3.5" />

@@ -41,6 +41,17 @@ class DomainScore(BaseModel):
     unsure_count: int
 
 
+class MilestoneQuestionnaireItem(BaseModel):
+    id: str
+    domain: str
+    domain_name: str
+    text: str
+    hindi_text: Optional[str] = ""
+    answer: str
+    answer_label: str
+    example_text: Optional[str] = ""
+
+
 class MilestoneAssessmentResponse(BaseModel):
     id: int
     child_id: int
@@ -60,6 +71,7 @@ class MilestoneAssessmentResponse(BaseModel):
     domain_breakdown: Optional[List[DomainScore]] = []
     domain_scores: Optional[List[DomainScore]] = []
     responses: Optional[Dict[str, str]] = {}
+    questionnaire: Optional[List[MilestoneQuestionnaireItem]] = []
     created_at: datetime
 
     class Config:

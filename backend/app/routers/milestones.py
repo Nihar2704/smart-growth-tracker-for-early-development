@@ -19,10 +19,12 @@ from app.schemas.milestone import (
     MilestoneQuestion,
     MilestoneAssessmentCreate,
     MilestoneAssessmentResponse,
+    MilestoneQuestionnaireItem,
     DomainScore,
 )
 from app.rules.rule_engine import (
     get_questions_for_age,
+    load_milestone_dataset,
     evaluate_milestone_assessment,
     calculate_age_months,
     DOMAIN_NAMES,
@@ -36,6 +38,12 @@ router = APIRouter(tags=["milestones"])
 def _format_assessment_response(a: MilestoneAssessment) -> MilestoneAssessmentResponse:
     guidance_list = json.loads(a.guidance_json) if a.guidance_json else []
     responses_map = json.loads(a.responses_json) if a.responses_json else {}
+
+    dataset = load_milestone_dataset()
+    all_questions_lookup = {}
+    for age_bracket, q_list in dataset.get("questions", {}).items():
+        for q in q_list:
+            all_questions_lookup[q["id"]] = q
 
     dataset_questions = get_questions_for_age(a.age_months)[1]
     domain_totals = {d: 0 for d in DOMAIN_NAMES.keys()}
@@ -84,6 +92,60 @@ def _format_assessment_response(a: MilestoneAssessment) -> MilestoneAssessmentRe
             )
         )
 
+    ANSWER_LABELS = {
+        "achieved": "✓ Achieved / Observed (हाँ)",
+        "not_yet_observed": "⏳ Not Yet Observed (अभी नहीं)",
+        "unsure": "❓ Unsure (पक्का नहीं)",
+    }
+
+    questionnaire_items = []
+    if responses_map:
+        for q_id, ans in responses_map.items():
+            q_info = all_questions_lookup.get(q_id)
+            if q_info:
+                domain = q_info.get("domain", "")
+                questionnaire_items.append(
+                    MilestoneQuestionnaireItem(
+                        id=q_id,
+                        domain=domain,
+                        domain_name=DOMAIN_NAMES.get(domain, domain.replace("_", " ").title()),
+                        text=q_info.get("text", q_id),
+                        hindi_text=q_info.get("hindi_text", ""),
+                        answer=ans,
+                        answer_label=ANSWER_LABELS.get(ans.lower(), ans),
+                        example_text=q_info.get("example_text", ""),
+                    )
+                )
+            else:
+                questionnaire_items.append(
+                    MilestoneQuestionnaireItem(
+                        id=q_id,
+                        domain="general",
+                        domain_name="General Milestone",
+                        text=q_id.replace("_", " ").title(),
+                        hindi_text="",
+                        answer=ans,
+                        answer_label=ANSWER_LABELS.get(ans.lower(), ans),
+                        example_text="",
+                    )
+                )
+    else:
+        for q in dataset_questions:
+            domain = q.get("domain", "")
+            ans = responses_map.get(q["id"], "not_recorded")
+            questionnaire_items.append(
+                MilestoneQuestionnaireItem(
+                    id=q["id"],
+                    domain=domain,
+                    domain_name=DOMAIN_NAMES.get(domain, domain.replace("_", " ").title()),
+                    text=q.get("text", q["id"]),
+                    hindi_text=q.get("hindi_text", ""),
+                    answer=ans,
+                    answer_label=ANSWER_LABELS.get(ans.lower(), "Not Recorded"),
+                    example_text=q.get("example_text", ""),
+                )
+            )
+
     return MilestoneAssessmentResponse(
         id=a.id,
         child_id=a.child_id,
@@ -103,6 +165,7 @@ def _format_assessment_response(a: MilestoneAssessment) -> MilestoneAssessmentRe
         domain_breakdown=domain_breakdown,
         domain_scores=domain_breakdown,
         responses=responses_map,
+        questionnaire=questionnaire_items,
         created_at=a.created_at,
     )
 

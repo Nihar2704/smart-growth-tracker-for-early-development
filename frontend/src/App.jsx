@@ -29,30 +29,15 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Default theme: 'light' per UI_Implementation_Guidelines.md
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('sgt_theme') || 'light';
-  });
-
+  // Enforce pure warm off-white Light Theme throughout application
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === 'dark') {
-      root.classList.remove('light');
-      root.classList.add('dark');
-      document.body.classList.remove('light');
-      document.body.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-      root.classList.add('light');
-      document.body.classList.remove('dark');
-      document.body.classList.add('light');
-    }
-    localStorage.setItem('sgt_theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
-  };
+    root.classList.remove('dark');
+    root.classList.add('light');
+    document.body.classList.remove('dark', 'bg-slate-950', 'text-slate-100');
+    document.body.classList.add('light', 'bg-[#F8F9FA]', 'text-[#0F172A]');
+    localStorage.removeItem('sgt_theme');
+  }, []);
 
   const fetchChildrenList = async () => {
     if (!isAuthenticated) return;
@@ -130,9 +115,9 @@ export default function App() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <div className="min-h-screen flex items-center justify-center bg-[#F8F9FA]">
         <div className="text-center space-y-3">
-          <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <div className="w-10 h-10 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
           <p className="text-sm font-medium text-slate-600">Loading Smart Growth Tracker...</p>
         </div>
       </div>
@@ -142,12 +127,8 @@ export default function App() {
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans ${theme}`}>
-      <Navbar
-        onOpenAddChild={handleOpenAddModal}
-        theme={theme}
-        onToggleTheme={toggleTheme}
-      />
+    <div className="min-h-screen flex flex-col font-sans bg-[#F8F9FA] text-[#0F172A] light">
+      <Navbar onOpenAddChild={handleOpenAddModal} />
 
       <Routes>
         <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
@@ -157,7 +138,7 @@ export default function App() {
           path="/*"
           element={
             isAuthenticated ? (
-              <div className="flex flex-1 overflow-hidden">
+              <div className="flex flex-1 overflow-hidden bg-[#F8F9FA]">
                 <Sidebar
                   currentView={currentView}
                   setCurrentView={(view) => {
@@ -169,7 +150,7 @@ export default function App() {
                   selectedChildId={selectedChildId}
                 />
 
-                <main className="flex-1 p-4 sm:p-6 md:p-8 pb-24 md:pb-8 overflow-y-auto max-w-7xl mx-auto w-full">
+                <main className="flex-1 p-4 sm:p-6 md:p-8 pb-24 md:pb-8 overflow-y-auto max-w-7xl mx-auto w-full bg-[#F8F9FA]">
                   <PWAInstallPrompt />
 
                   {error && (
