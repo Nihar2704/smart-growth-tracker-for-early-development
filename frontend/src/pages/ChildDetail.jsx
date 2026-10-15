@@ -121,28 +121,28 @@ _Note: Educational report shared from Smart Growth Tracker for pediatrician cons
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <button
           onClick={onBack}
-          className="inline-flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition font-medium text-xs cursor-pointer self-start py-1 px-2 rounded-lg hover:bg-slate-100"
+          className="inline-flex items-center gap-1.5 text-slate-700 hover:text-slate-900 transition font-medium text-xs cursor-pointer self-start py-1.5 px-3 rounded-xl hover:bg-slate-100 active:scale-95 border border-slate-200 bg-white shadow-2xs"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-4 h-4 text-slate-500" />
           <span>Back to Child Profiles</span>
         </button>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
           {/* Quick WhatsApp Share Button */}
           <button
             onClick={handleWhatsAppShare}
-            className="flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold text-xs px-3.5 py-2.2 rounded-xl transition cursor-pointer shadow-xs active:scale-95"
+            className="flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs sm:text-sm px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl transition cursor-pointer shadow-xs active:scale-95"
             title="Share full growth and CDC milestone questionnaire report via WhatsApp"
           >
-            <Share2 className="w-3.5 h-3.5 stroke-[2.4]" />
+            <Share2 className="w-4 h-4 stroke-[2.4]" />
             <span>Share via WhatsApp</span>
           </button>
 
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="flex items-center gap-1.5 btn-primary text-xs px-3.5 py-2.2 cursor-pointer shadow-xs active:scale-95"
+            className="flex items-center gap-2 btn-primary text-xs sm:text-sm font-bold px-4.5 sm:px-5 py-2.5 sm:py-3 cursor-pointer shadow-sm hover:shadow-md rounded-xl active:scale-95"
           >
-            <Plus className="w-4 h-4 stroke-[2.5]" />
+            <Plus className="w-4.5 h-4.5 stroke-[2.8]" />
             <span>Add Growth Entry</span>
           </button>
         </div>
@@ -201,10 +201,10 @@ _Note: Educational report shared from Smart Growth Tracker for pediatrician cons
 
       {/* Compact Stat Summary Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-        <div className="bg-white border border-[var(--border-color)] rounded-2xl p-4 sm:p-4.5 space-y-1 shadow-2xs">
+        <div className="bg-white border border-[var(--border-color)] rounded-2xl p-4 sm:p-4.5 space-y-1 shadow-2xs hover:-translate-y-0.5 hover:shadow-sm transition-all duration-150">
           <div className="flex items-center justify-between text-xs text-slate-500 font-medium">
             <span>Latest Height</span>
-            <div className="p-1 rounded bg-teal-50 text-[var(--primary)]">
+            <div className="p-1.5 rounded-xl bg-teal-50 text-[var(--primary)] border border-teal-100">
               <Ruler className="w-4 h-4" />
             </div>
           </div>
@@ -216,10 +216,10 @@ _Note: Educational report shared from Smart Growth Tracker for pediatrician cons
           </p>
         </div>
 
-        <div className="bg-white border border-[var(--border-color)] rounded-2xl p-4 sm:p-4.5 space-y-1 shadow-2xs">
+        <div className="bg-white border border-[var(--border-color)] rounded-2xl p-4 sm:p-4.5 space-y-1 shadow-2xs hover:-translate-y-0.5 hover:shadow-sm transition-all duration-150">
           <div className="flex items-center justify-between text-xs text-slate-500 font-medium">
             <span>Latest Weight</span>
-            <div className="p-1 rounded bg-teal-50 text-[var(--primary)]">
+            <div className="p-1.5 rounded-xl bg-teal-50 text-[var(--primary)] border border-teal-100">
               <Scale className="w-4 h-4" />
             </div>
           </div>
@@ -231,10 +231,10 @@ _Note: Educational report shared from Smart Growth Tracker for pediatrician cons
           </p>
         </div>
 
-        <div className="bg-white border border-[var(--border-color)] rounded-2xl p-4 sm:p-4.5 space-y-1 shadow-2xs">
+        <div className="bg-white border border-[var(--border-color)] rounded-2xl p-4 sm:p-4.5 space-y-1 shadow-2xs hover:-translate-y-0.5 hover:shadow-sm transition-all duration-150">
           <div className="flex items-center justify-between text-xs text-slate-500 font-medium">
             <span>Calculated BMI</span>
-            <div className="p-1 rounded bg-indigo-50 text-indigo-600">
+            <div className="p-1.5 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-100">
               <Activity className="w-4 h-4" />
             </div>
           </div>

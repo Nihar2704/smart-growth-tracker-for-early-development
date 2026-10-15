@@ -167,24 +167,24 @@ _Shared from Smart Growth Tracker for educational decision support during pediat
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 shrink-0 self-start sm:self-auto">
+        <div className="flex flex-wrap items-center gap-2.5 shrink-0 self-start sm:self-auto">
           {/* WhatsApp Share Button */}
           <button
             onClick={handleWhatsAppShare}
-            className="px-3.5 py-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold text-xs rounded-xl transition flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95"
+            className="px-4 py-2.5 bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold text-xs sm:text-sm rounded-xl transition flex items-center gap-2 cursor-pointer shadow-xs active:scale-95"
             title="Share report with full question text, Hindi translations, domain breakdown, and status via WhatsApp"
           >
-            <Share2 className="w-3.5 h-3.5 stroke-[2.4]" />
+            <Share2 className="w-4 h-4 stroke-[2.4]" />
             <span>Share via WhatsApp</span>
           </button>
 
           <button
             onClick={() => setShowDoctorNotes(!showDoctorNotes)}
-            className="px-3 py-2 btn-secondary text-slate-700 font-semibold text-xs rounded-xl transition flex items-center gap-1 cursor-pointer"
+            className="px-4 py-2.5 btn-secondary text-slate-700 font-semibold text-xs sm:text-sm rounded-xl transition flex items-center gap-1.5 cursor-pointer shadow-2xs active:scale-95"
           >
-            <FileText className="w-3.5 h-3.5 text-[var(--primary)]" />
+            <FileText className="w-4 h-4 text-[var(--primary)]" />
             <span>{showDoctorNotes ? 'Hide Summary' : 'Doctor Notes'}</span>
-            {showDoctorNotes ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+            {showDoctorNotes ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>
         </div>
       </div>

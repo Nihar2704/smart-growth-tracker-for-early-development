@@ -4,7 +4,7 @@ import MilestoneQuestionnaireModal from '../components/MilestoneQuestionnaireMod
 import MilestoneResultCard from '../components/MilestoneResultCard';
 import MLPredictionCard from '../components/MLPredictionCard';
 import MilestoneChatbot from '../components/MilestoneChatbot';
-import { CheckCircle2, Plus, Users, History, AlertCircle, Bot, Sparkles } from 'lucide-react';
+import { CheckCircle2, Plus, Users, History, AlertCircle, Bot, Sparkles, ChevronDown } from 'lucide-react';
 
 export default function MilestoneTracker({ children, selectedChild, onSelectChild }) {
   const [assessments, setAssessments] = useState([]);
@@ -91,19 +91,22 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          {children && children.length > 1 && (
-            <select
-              value={selectedChild.id}
-              onChange={(e) => onSelectChild(Number(e.target.value))}
-              className="bg-white border border-[var(--border-color)] text-[var(--text-main)] text-xs font-semibold rounded-xl px-3 py-2.2 focus:outline-none focus:border-[var(--primary)] shadow-2xs"
-            >
-              {children.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name} ({c.age_in_months}m)
-                </option>
-              ))}
-            </select>
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+          {children && children.length > 0 && (
+            <div className="relative">
+              <select
+                value={selectedChild.id}
+                onChange={(e) => onSelectChild(Number(e.target.value))}
+                className="bg-white border border-[var(--border-color)] text-[var(--text-main)] text-xs sm:text-sm font-semibold rounded-xl pl-3.5 pr-8 py-2.5 sm:py-3 focus:outline-none focus:border-[var(--primary)] shadow-2xs cursor-pointer appearance-none"
+              >
+                {children.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name} ({c.age_in_months}m)
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="w-4 h-4 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
           )}
 
           <button
@@ -111,18 +114,18 @@ export default function MilestoneTracker({ children, selectedChild, onSelectChil
               setChatbotQuery(null);
               setIsChatbotOpen(true);
             }}
-            className="flex items-center gap-1.5 btn-secondary text-xs px-3.5 py-2.2 cursor-pointer shadow-xs rounded-xl active:scale-95"
+            className="flex items-center gap-2 btn-secondary text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2.5 sm:py-3 cursor-pointer shadow-xs rounded-xl active:scale-95 transition-all"
           >
-            <Bot className="w-4 h-4 text-[var(--primary)]" />
+            <Bot className="w-4.5 h-4.5 text-[var(--primary)] stroke-[2.2]" />
             <span>Ask Pediatric AI</span>
-            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+            <Sparkles className="w-4 h-4 text-amber-500" />
           </button>
 
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-1.5 btn-primary text-xs px-4 py-2.2 cursor-pointer shadow-xs rounded-xl active:scale-95"
+            className="flex items-center gap-2 btn-primary text-xs sm:text-sm font-bold px-5 sm:px-6 py-2.5 sm:py-3 cursor-pointer shadow-sm hover:shadow-md rounded-xl active:scale-95 transition-all"
           >
-            <Plus className="w-4 h-4 stroke-[2.5]" />
+            <Plus className="w-5 h-5 stroke-[2.8]" />
             <span>Start Assessment</span>
           </button>
         </div>

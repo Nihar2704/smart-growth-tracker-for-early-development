@@ -30,9 +30,9 @@ export default function ChildrenList({ children, onSelectChild, onOpenAddChild, 
 
         <button
           onClick={onOpenAddChild}
-          className="flex items-center gap-2 btn-primary text-xs sm:text-sm px-4 py-2.5 cursor-pointer self-start sm:self-auto shadow-xs active:scale-95 transition-transform"
+          className="flex items-center gap-2 btn-primary text-xs sm:text-sm font-bold px-4.5 sm:px-5 py-2.5 sm:py-3 cursor-pointer self-start sm:self-auto shadow-sm hover:shadow-md active:scale-95 transition-all rounded-xl"
         >
-          <UserPlus className="w-4 h-4 stroke-[2.5]" />
+          <UserPlus className="w-4.5 h-4.5 stroke-[2.8]" />
           <span>Add Child Profile</span>
         </button>
       </div>

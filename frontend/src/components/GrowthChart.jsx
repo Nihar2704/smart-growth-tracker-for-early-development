@@ -40,7 +40,7 @@ export default function GrowthChart({ measurements }) {
     height: {
       key: 'height',
       name: 'Height (cm)',
-      color: '#2F6F5E',
+      color: '#156E5A',
       gradientId: 'heightGrad',
       unit: 'cm',
       icon: Ruler,
@@ -56,7 +56,7 @@ export default function GrowthChart({ measurements }) {
     bmi: {
       key: 'bmi',
       name: 'BMI (kg/m²)',
-      color: '#6366F1',
+      color: '#4F46E5',
       gradientId: 'bmiGrad',
       unit: 'kg/m²',
       icon: Activity,
@@ -152,21 +152,21 @@ export default function GrowthChart({ measurements }) {
           <AreaChart data={chartData} margin={{ top: 10, right: 20, left: -15, bottom: 0 }}>
             <defs>
               <linearGradient id="heightGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#2F6F5E" stopOpacity={0.25} />
-                <stop offset="95%" stopColor="#2F6F5E" stopOpacity={0.0} />
+                <stop offset="5%" stopColor="#156E5A" stopOpacity={0.25} />
+                <stop offset="95%" stopColor="#156E5A" stopOpacity={0.0} />
               </linearGradient>
               <linearGradient id="weightGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#0D9488" stopOpacity={0.25} />
                 <stop offset="95%" stopColor="#0D9488" stopOpacity={0.0} />
               </linearGradient>
               <linearGradient id="bmiGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#6366F1" stopOpacity={0.25} />
-                <stop offset="95%" stopColor="#6366F1" stopOpacity={0.0} />
+                <stop offset="5%" stopColor="#4F46E5" stopOpacity={0.25} />
+                <stop offset="95%" stopColor="#4F46E5" stopOpacity={0.0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#E4E6E9" opacity={0.8} />
-            <XAxis dataKey="ageMonths" stroke="#788290" fontSize={11} tickLine={false} />
-            <YAxis stroke="#788290" fontSize={11} tickLine={false} domain={['auto', 'auto']} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" opacity={0.8} />
+            <XAxis dataKey="ageMonths" stroke="#64748B" fontSize={11} tickLine={false} />
+            <YAxis stroke="#64748B" fontSize={11} tickLine={false} domain={['auto', 'auto']} />
             <Tooltip content={<CustomTooltip />} />
             <Area
               type="monotone"

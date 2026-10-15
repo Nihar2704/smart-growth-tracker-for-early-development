@@ -78,7 +78,7 @@ export default function ChildCard({ child, onSelect, onEdit, onDelete }) {
 
       <button
         onClick={() => onSelect(child.id)}
-        className="w-full flex items-center justify-center gap-2 py-2.5 px-3 btn-secondary text-xs font-semibold rounded-xl transition cursor-pointer hover:border-[var(--primary)] group-hover:bg-teal-50/50"
+        className="w-full flex items-center justify-center gap-2 py-2.5 px-3 btn-secondary text-xs font-semibold rounded-xl transition cursor-pointer hover:border-[var(--primary)] group-hover:bg-teal-50/50 active:scale-95"
       >
         <TrendingUp className="w-4 h-4 text-[var(--primary)]" />
         <span>Open Growth & Milestones</span>

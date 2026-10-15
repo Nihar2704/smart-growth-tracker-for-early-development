@@ -82,9 +82,9 @@ export default function MLPredictionCard({ childId, assessmentId, onPredictionCo
         <button
           onClick={handleGeneratePrediction}
           disabled={loading}
-          className="px-4 py-2.2 btn-primary text-xs font-semibold transition shadow-xs flex items-center gap-2 shrink-0 cursor-pointer self-start sm:self-auto active:scale-95"
+          className="px-4.5 sm:px-5 py-2.5 sm:py-3 btn-primary text-xs sm:text-sm font-bold transition shadow-sm hover:shadow-md flex items-center gap-2 shrink-0 cursor-pointer self-start sm:self-auto active:scale-95 rounded-xl"
         >
-          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           <span>{prediction ? 'Recalculate Estimate' : 'Generate ML Estimate'}</span>
         </button>
       </div>
