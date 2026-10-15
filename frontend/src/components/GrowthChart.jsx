@@ -8,7 +8,7 @@ import {
   CartesianGrid,
   Tooltip,
 } from 'recharts';
-import { Ruler, Scale, Activity } from 'lucide-react';
+import { Ruler, Scale, Activity, TrendingUp, Info } from 'lucide-react';
 
 export default function GrowthChart({ measurements }) {
   const [metric, setMetric] = useState('height');
@@ -94,7 +94,7 @@ export default function GrowthChart({ measurements }) {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
           <h3 className="font-bold text-sm sm:text-base text-[var(--text-main)] flex items-center gap-2 tracking-tight">
-            <span>📈</span>
+            <TrendingUp className="w-4 h-4 text-[var(--primary)] shrink-0" />
             <span>WHO Physical Growth Trajectory Curves</span>
           </h3>
           <p className="text-xs text-slate-500">Longitudinal growth measurements logged over time</p>
@@ -138,8 +138,8 @@ export default function GrowthChart({ measurements }) {
       </div>
 
       {measurements.length === 1 && (
-        <div className="p-3 bg-[var(--status-routine-bg)] border border-[var(--status-routine-border)] text-[var(--status-routine-text)] rounded-xl text-xs flex items-center gap-2">
-          <span>💡</span>
+        <div className="p-3 bg-[var(--status-routine-bg)] border border-[var(--status-routine-border)] text-[var(--status-routine-text)] rounded-xl text-xs flex items-start gap-2.5">
+          <Info className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
           <span>
             <strong>First Growth Baseline Logged:</strong> Record additional measurements every 1–2 months to visualize your child's continuous longitudinal growth curve.
           </span>

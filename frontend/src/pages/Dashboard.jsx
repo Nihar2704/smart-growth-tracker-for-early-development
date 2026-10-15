@@ -46,7 +46,7 @@ export default function Dashboard({ children, onSelectChild, onOpenAddChild, onN
               </span>
             </div>
             <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-[var(--text-main)]">
-              Welcome, {user?.name ? user.name.split(' ')[0] : 'Parent'} 👋
+              Welcome, {user?.name ? user.name.split(' ')[0] : 'Parent'}
             </h1>
             <p className="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
               Track physical growth trajectories (Height, Weight, BMI) against WHO standards and evaluate age-specific CDC developmental milestones across 5 fundamental domains.

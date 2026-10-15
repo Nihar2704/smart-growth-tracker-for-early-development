@@ -317,12 +317,12 @@ export default function MilestoneQuestionnaireModal({ isOpen, onClose, child, on
                           onClick={() => handleSelectAnswer(q.id, 'achieved')}
                           className={`py-2 sm:py-2.5 px-1.5 sm:px-3 rounded-xl text-center flex flex-col items-center justify-center transition cursor-pointer border ${
                             currentAns === 'achieved'
-                              ? 'bg-emerald-50 text-emerald-800 border-emerald-300 ring-2 ring-emerald-400/30 shadow-xs'
+                              ? 'bg-emerald-50 text-emerald-800 border-emerald-300 ring-2 ring-emerald-400/30 shadow-xs font-bold'
                               : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border-slate-200'
                           }`}
                         >
                           <span className="font-bold text-[11px] sm:text-xs">Observed</span>
-                          <span className="text-[10px] sm:text-[11px] font-medium opacity-90">✓ हाँ</span>
+                          <span className="text-[10px] sm:text-[11px] font-medium opacity-90">हाँ (करता है)</span>
                         </button>
 
                         <button
@@ -330,12 +330,12 @@ export default function MilestoneQuestionnaireModal({ isOpen, onClose, child, on
                           onClick={() => handleSelectAnswer(q.id, 'not_yet_observed')}
                           className={`py-2 sm:py-2.5 px-1.5 sm:px-3 rounded-xl text-center flex flex-col items-center justify-center transition cursor-pointer border ${
                             currentAns === 'not_yet_observed'
-                              ? 'bg-amber-50 text-amber-800 border-amber-300 ring-2 ring-amber-400/30 shadow-xs'
+                              ? 'bg-amber-50 text-amber-800 border-amber-300 ring-2 ring-amber-400/30 shadow-xs font-bold'
                               : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border-slate-200'
                           }`}
                         >
                           <span className="font-bold text-[11px] sm:text-xs">Not Yet</span>
-                          <span className="text-[10px] sm:text-[11px] font-medium opacity-90">⏳ अभी नहीं</span>
+                          <span className="text-[10px] sm:text-[11px] font-medium opacity-90">अभी नहीं</span>
                         </button>
 
                         <button
@@ -348,7 +348,7 @@ export default function MilestoneQuestionnaireModal({ isOpen, onClose, child, on
                           }`}
                         >
                           <span className="font-bold text-[11px] sm:text-xs">Unsure</span>
-                          <span className="text-[10px] sm:text-[11px] font-medium opacity-90">❓ पक्का नहीं</span>
+                          <span className="text-[10px] sm:text-[11px] font-medium opacity-90">पक्का नहीं</span>
                         </button>
                       </div>
                     </div>
