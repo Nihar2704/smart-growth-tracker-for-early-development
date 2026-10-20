@@ -268,26 +268,6 @@ If you seeded the database using `python app/seed.py`:
 
 ---
 
-## 📡 REST API Reference
-
-| Method | Endpoint | Description | Auth Required |
-|:---|:---|:---|:---:|
-| `POST` | `/api/auth/register` | Register new user account (`parent` or `admin`) | ❌ |
-| `POST` | `/api/auth/login` | Authenticate credentials and return 24h JWT token | ❌ |
-| `GET` | `/api/auth/me` | Fetch authenticated user profile & role | ✅ |
-| `GET` | `/api/children` | List accessible children (scoped to parent or all for admin) | ✅ |
-| `POST` | `/api/children` | Register a new child profile | ✅ |
-| `GET` | `/api/children/{id}` | Retrieve specific child profile details | ✅ |
-| `GET` | `/api/growth/{child_id}` | Retrieve chronological height, weight & BMI history | ✅ |
-| `POST` | `/api/growth/{child_id}` | Log a new growth measurement | ✅ |
-| `GET` | `/api/milestones/questions` | Get age-appropriate CDC questionnaire (EN + HI) | ✅ |
-| `POST` | `/api/milestones/{child_id}` | Submit assessment, evaluate rules & generate ML recommendation | ✅ |
-| `GET` | `/api/milestones/{child_id}` | Fetch historical milestone assessments & answers | ✅ |
-| `POST` | `/api/predictions/evaluate` | On-demand ML probability evaluation for feature vector | ✅ |
-| `POST` | `/api/assistant/chat` | Send query to GrowSense Pediatric AI Companion | ✅ |
-
----
-
 ## ⚠️ Clinical & Ethical Disclaimer
 
 > [!IMPORTANT]
